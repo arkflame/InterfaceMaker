@@ -5,6 +5,6 @@ main: ${mainClass}
 version: ${version}
 url: ${url}
 commands:
-  example:
-    aliases: ["ex"]
-    description: "This is an example plugin."
+  interfacemaker:
+    aliases: ["im"]
+    description: "InterfaceMaker is a revolutionary interface manager plugin."
