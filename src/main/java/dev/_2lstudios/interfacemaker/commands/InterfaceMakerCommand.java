@@ -19,6 +19,24 @@ public class InterfaceMakerCommand implements CommandExecutor {
             if (args[0].equals("reload")) {
                 plugin.reloadConfig();
                 sender.sendMessage("The plugin has been reloaded!");
+            } else if (args[0].equals("menu")) {
+                if (args.length > 2) {
+                    String playerName = args[1];
+                    String menuName = args[2];
+
+                    sender.sendMessage("Opened menu " + menuName + " for player " + playerName + "!");
+                } else {
+                    sender.sendMessage("/interfacemaker menu <player> <menu>");
+                }
+            } else if (args[0].equals("hotbar")) {
+                if (args.length > 2) {
+                    String playerName = args[1];
+                    String hotbarName = args[2];
+
+                    sender.sendMessage("Opened hotbar " + hotbarName + " for player " + playerName + "!");
+                } else {
+                    sender.sendMessage("/interfacemaker hotbar <player> <hotbar>");
+                }
             } else {
                 sender.sendMessage("No command found for argument: '" + args[0] + "'");
                 sender.sendMessage("Possible options: reload");

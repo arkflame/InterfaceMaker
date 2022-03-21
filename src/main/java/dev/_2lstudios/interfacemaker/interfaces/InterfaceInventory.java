@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import dev._2lstudios.interfacemaker.placeholders.Formatter;
+
 public class InterfaceInventory {
     private InterfaceMakerAPI api;
     private Server server;
@@ -17,14 +19,24 @@ public class InterfaceInventory {
     private int size = 24;
     private boolean movement = false;
     
-    public InterfaceInventory(InterfaceMakerAPI api, Server server, Map<Integer, InterfaceItem> items, String title,
-            int size, boolean movement) {
+    public InterfaceInventory(InterfaceMakerAPI api, Server server) {
         this.api = api;
         this.server = server;
-        this.items = items;
+    }
+
+    public InterfaceInventory setTitle(String title) {
         this.title = title;
-        this.size = size;
+        return this;
+    }
+
+    public InterfaceInventory setSize(int rows) {
+        this.size = rows * 9;
+        return this;
+    }
+
+    public InterfaceInventory setAllowsMovement(boolean movement) {
         this.movement = movement;
+        return this;
     }
 
     public void populateItems(Player player, Inventory inventory) {
@@ -42,7 +54,7 @@ public class InterfaceInventory {
     }
 
     public void build(Player player) {
-        Inventory inventory = server.createInventory(player, size, title);
+        Inventory inventory = server.createInventory(player, size, Formatter.format(player, title));
 
         populateItems(player, inventory);
         player.openInventory(inventory);

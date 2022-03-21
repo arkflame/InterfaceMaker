@@ -9,7 +9,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class InterfaceHotbar {
+    private InterfaceMakerAPI api;
     private Map<Integer, InterfaceItem> items = new HashMap<>();
+
+    public InterfaceHotbar(InterfaceMakerAPI api) {
+        this.api = api;
+    }
 
     public InterfaceItem getItem(int slot) {
         return items.getOrDefault(slot, null);
@@ -29,12 +34,14 @@ public class InterfaceHotbar {
         for (Entry<Integer, InterfaceItem> entry : items.entrySet()) {
             int slot = entry.getKey();
 
-            if (slot > -1 && slot < 9) {
+            if (slot > -1) {
                 InterfaceItem interfaceItem = entry.getValue();
                 ItemStack item = interfaceItem.build(player);
 
                 inventory.setItem(slot, item);
             }
         }
+
+        api.setHotbar(player, this);
     }
 }
