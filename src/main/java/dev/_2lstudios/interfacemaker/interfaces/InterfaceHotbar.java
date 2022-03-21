@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 public class InterfaceHotbar {
     private InterfaceMakerAPI api;
     private Map<Integer, InterfaceItem> items = new HashMap<>();
+    private int autoRefresh = 0;
+    private boolean giveOnSpawn = false;
 
     public InterfaceHotbar(InterfaceMakerAPI api) {
         this.api = api;
@@ -34,14 +36,36 @@ public class InterfaceHotbar {
         for (Entry<Integer, InterfaceItem> entry : items.entrySet()) {
             int slot = entry.getKey();
 
-            if (slot > -1) {
+            if (slot > -1 && slot < inventory.getSize()) {
                 InterfaceItem interfaceItem = entry.getValue();
                 ItemStack item = interfaceItem.build(player);
 
-                inventory.setItem(slot, item);
+                try {
+                    inventory.setItem(slot, item);
+                } catch (IndexOutOfBoundsException ex) {
+                    // Ignored
+                }
             }
         }
 
         api.setHotbar(player, this);
+    }
+
+    public InterfaceHotbar setGiveOnSpawn(boolean giveOnSpawn) {
+        this.giveOnSpawn = giveOnSpawn;
+        return this;
+    }
+
+    public boolean giveOnSpawn() {
+        return giveOnSpawn;
+    }
+
+    public InterfaceHotbar setAutoRefresh(int autoRefresh) {
+        this.autoRefresh = autoRefresh;
+        return this;
+    }
+
+    public int getAutoRefresh() {
+        return autoRefresh;
     }
 }

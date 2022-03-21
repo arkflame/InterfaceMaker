@@ -1,0 +1,34 @@
+menu-settings:
+    name: '<RAINBOW1>InterfaceMaker</RAINBOW>'
+    rows: 3
+    commands:
+      - examplemenu
+    auto-refresh: 5
+    open-actions:
+      - 'tell: <RAINBOW1>InterfaceMaker is here for a revolution!</RAINBOW>'
+    open-with-item:
+      material: compass
+      left-click: false
+      right-click: true
+    example-item:
+      material: WOOL
+      durability: 14
+      position-x: 1
+      position-y: 1
+      name: "<RAINBOW1>Example Item</RAINBOW>"
+      lore:
+        - "<SOLID:FF0080>This is a hex lore"
+        - "<RAINBOW1>Looks pretty, right?</RAINBOW>"
+        - "<GRADIENT:2C08BA>And this looks cool</GRADIENT:028A97>"
+      enchantments:
+        - "sharpness, 5"
+      keep-open: true
+      permission: 'my.custom.permission'
+      view-permission: 'my.custom.permission'
+      permission-message: '<RAINBOW1>You have to be VIP to use this!</RAINBOW>'
+      required-items:
+        - 'wool:4, 30'
+      levels: 5
+      price: 100
+      actions:
+        - 'tell: <RAINBOW1>Thank you for clicking me, %player_name%!</RAINBOW>'
