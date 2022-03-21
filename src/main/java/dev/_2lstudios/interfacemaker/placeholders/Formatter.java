@@ -12,7 +12,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 public class Formatter {
     public static String format(Player player, String text) {
         return ChatColor.translateAlternateColorCodes('&',
-                IridiumColorAPI.process(PlaceholderAPI.setPlaceholders(player, text)));
+                IridiumColorAPI.process(PlaceholderAPI.setPlaceholders(player, text))).replace("%player_name%", player.getName()).replace("%display_name%", player.getDisplayName());
     }
 
     public static List<String> format(Player player, List<String> lore) {

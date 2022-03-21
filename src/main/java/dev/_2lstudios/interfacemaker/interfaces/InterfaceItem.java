@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -21,7 +22,7 @@ public class InterfaceItem {
     private Material type = Material.DIRT;
     private Map<Enchantment, Integer> enchantments = new HashMap<>();
     private List<String> lore = new ArrayList<>();
-    private List<String> actions = new ArrayList<>();
+    private Collection<String> actions = new HashSet<>();
     private Collection<ItemStack> requiredItems = new HashSet<>();
     private String name = "InterfaceMaker";
     private String permission = "";
@@ -48,7 +49,7 @@ public class InterfaceItem {
         item.setItemMeta(itemMeta);
         item.setAmount(amount);
 
-        if (item.getDurability() != 0) {
+        if (durability != 0) {
             item.setDurability(durability);
         }
 
@@ -176,9 +177,12 @@ public class InterfaceItem {
 
             try {
                 Material type = Material.getMaterial(materialName);
-                int amount = Integer.parseInt(amountString);
 
-                this.requiredItems.add(new ItemStack(type, amount));
+                if (type != null) {
+                    int amount = Integer.parseInt(amountString);
+
+                    this.requiredItems.add(new ItemStack(type, amount));
+                }
             } catch (NumberFormatException ex) {
                 // Ignored
             }
@@ -219,7 +223,7 @@ public class InterfaceItem {
         return lore;
     }
 
-    public List<String> getActions() {
+    public Collection<String> getActions() {
         return actions;
     }
 
@@ -276,4 +280,51 @@ public class InterfaceItem {
         return keepOpen;
     }
 
+    public void runActions(InterfaceMakerAPI api, Player player) {
+        for (String action : getActions()) {
+            String[] splittedAction = action.split(" ");
+
+            if (splittedAction.length > 0) {
+                switch (splittedAction[0].toLowerCase()) {
+                    case "tell:": {
+                        player.sendMessage(Formatter.format(player, action.replace("tell: ", "")));
+
+                        break;
+                    }
+                    case "open-menu:": {
+                        InterfaceInventory inventory = api.getConfiguredInventory(action.replace("open-menu: ", ""));
+
+                        if (inventory != null) {
+                            inventory.build(player);
+                        }
+
+                        break;
+                    }
+                    case "give-hotbar:": {
+                        InterfaceHotbar hotbar = api.getConfiguredHotbar(action.replace("give-hotbar: ", ""));
+
+                        if (hotbar != null) {
+                            hotbar.build(player);
+                        }
+
+                        break;
+                    }
+                    case "console:": {
+                        Server server = player.getServer();
+
+                        server.dispatchCommand(server.getConsoleSender(), action.replace("console: ", ""));
+
+                        break;
+                    }
+                    case "player:": {
+                        Server server = player.getServer();
+
+                        server.dispatchCommand(player, action.replace("player: ", ""));
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }

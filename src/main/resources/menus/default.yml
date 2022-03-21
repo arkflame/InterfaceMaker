@@ -32,3 +32,5 @@ menu-settings:
       price: 100
       actions:
         - 'tell: <RAINBOW1>Thank you for clicking me, %player_name%!</RAINBOW>'
+        - 'console: say Seems someone touched an item...'
+        - 'player: spawn'

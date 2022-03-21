@@ -53,7 +53,8 @@ public class InventoryClickListener implements Listener {
             if (interfaceInventory != null) {
                 if (!interfaceInventory.allowsMovement()) {
                     event.setCancelled(true);
-                } else {
+                }
+
                     InterfaceItem interfaceItem = interfaceInventory.getItem(slot);
 
                     if (interfaceItem != null) {
@@ -61,9 +62,9 @@ public class InventoryClickListener implements Listener {
                             event.setCancelled(true);
                         }
 
+                        interfaceItem.runActions(api, player);
                         interfaceItem.onClick(player, clickedInventory);
                     }
-                }
             }
         }
     }

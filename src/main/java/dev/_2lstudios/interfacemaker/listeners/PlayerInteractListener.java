@@ -32,7 +32,7 @@ public class PlayerInteractListener implements Listener {
         if (item != null) {
             Material material = item.getType();
 
-            for (InterfaceInventory inventory : api.getConfiguredInventories()) {
+            for (InterfaceInventory inventory : api.getConfiguredInventoriesValues()) {
                 Action action = event.getAction();
                 boolean isActionLeft = action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
                 boolean isActionRight = action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
@@ -54,6 +54,7 @@ public class PlayerInteractListener implements Listener {
                     event.setCancelled(true);
                 }
 
+                interfaceItem.runActions(api, player);
                 interfaceItem.onInteract(player);
             }
         }

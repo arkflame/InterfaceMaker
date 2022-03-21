@@ -17,8 +17,12 @@ public class InterfaceMakerAPI {
         return configuredInventories.getOrDefault(name, null);
     }
 
-    public Collection<InterfaceInventory> getConfiguredInventories() {
+    public Collection<InterfaceInventory> getConfiguredInventoriesValues() {
         return configuredInventories.values();
+    }
+
+    public Map<String, InterfaceInventory> getConfiguredInventories() {
+        return configuredInventories;
     }
 
     public void addConfiguredInventory(String name, InterfaceInventory interfaceInventory) {
@@ -29,8 +33,12 @@ public class InterfaceMakerAPI {
         return configuredHotbars.getOrDefault(name, null);
     }
 
-    public Collection<InterfaceHotbar> getConfiguredHotbars() {
+    public Collection<InterfaceHotbar> getConfiguredHotbarsValues() {
         return configuredHotbars.values();
+    }
+
+    public Map<String, InterfaceHotbar> getConfiguredHotbars() {
+        return configuredHotbars;
     }
 
     public void addConfiguredHotbar(String name, InterfaceHotbar interfaceHotbar) {
@@ -59,5 +67,13 @@ public class InterfaceMakerAPI {
 
     public void unsetHotbar(Player player) {
         openedHotbars.remove(player);
+    }
+
+    public void clearConfiguredHotbars() {
+        configuredHotbars.clear();
+    }
+
+    public void clearConfiguredInventories() {
+        configuredInventories.clear();
     }
 }

@@ -17,7 +17,7 @@ public class PlayerJoinListener implements Listener {
     
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        for (InterfaceHotbar hotbar : api.getConfiguredHotbars()) {
+        for (InterfaceHotbar hotbar : api.getConfiguredHotbarsValues()) {
             if (hotbar.giveOnSpawn()) {
                 Player player = event.getPlayer();
                 

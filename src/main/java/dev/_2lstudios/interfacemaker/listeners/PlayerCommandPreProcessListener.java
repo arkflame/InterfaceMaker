@@ -19,7 +19,7 @@ public class PlayerCommandPreProcessListener implements Listener {
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
         String message = event.getMessage();
 
-        for (InterfaceInventory inventory : api.getConfiguredInventories()) {
+        for (InterfaceInventory inventory : api.getConfiguredInventoriesValues()) {
             if (inventory.getCommands().contains(message)) {
                 Player player = event.getPlayer();
 

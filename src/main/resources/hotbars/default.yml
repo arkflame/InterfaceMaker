@@ -19,3 +19,5 @@ hotbar-settings:
       price: 100
       actions:
         - 'tell: <RAINBOW1>Thank you for using me, %player_name%!</RAINBOW>'
+        - 'open-menu: default'
+        - 'console: say Someone clicked the block!'

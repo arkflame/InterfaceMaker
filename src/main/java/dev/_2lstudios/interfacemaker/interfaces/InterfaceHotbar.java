@@ -33,6 +33,8 @@ public class InterfaceHotbar {
     public void build(Player player) {
         Inventory inventory = player.getInventory();
 
+        inventory.clear();
+
         for (Entry<Integer, InterfaceItem> entry : items.entrySet()) {
             int slot = entry.getKey();
 
