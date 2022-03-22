@@ -55,16 +55,16 @@ public class InventoryClickListener implements Listener {
                     event.setCancelled(true);
                 }
 
-                    InterfaceItem interfaceItem = interfaceMenu.getItem(slot);
+                InterfaceItem interfaceItem = interfaceMenu.getItem(slot);
 
-                    if (interfaceItem != null) {
-                        if (!interfaceItem.allowsMovement()) {
-                            event.setCancelled(true);
-                        }
-
-                        interfaceItem.runActions(api, player);
-                        interfaceItem.onClick(player, clickedInventory);
+                if (interfaceItem != null) {
+                    if (!interfaceItem.allowsMovement()) {
+                        event.setCancelled(true);
                     }
+
+                    interfaceItem.runActions(api, player);
+                    interfaceItem.onClick(player, clickedInventory);
+                }
             }
         }
     }
