@@ -53,6 +53,15 @@ public class InterfaceHotbar {
         api.setHotbar(player, this);
     }
 
+    public InterfaceHotbar fillEmpty(InterfaceItem item) {
+        for (int i = 0; i < 9; i++) {
+            if (!items.containsKey(i)) {
+                items.put(i, item);
+            }
+        }
+        return this;
+    }
+
     public InterfaceHotbar setGiveOnSpawn(boolean giveOnSpawn) {
         this.giveOnSpawn = giveOnSpawn;
         return this;
