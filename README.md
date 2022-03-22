@@ -28,7 +28,7 @@ Menus can be extended and use the `onBuild(MenuBuildContext)` event. Items can b
 
 ## Creating a Hotbar
 
-Get the API `InterfaceMaker.getAPI()` create a new menu `api.createHotbar()` create items `new InterfaceItem()` set them `hotbar.setItem(slot, item)` and build it `hotbar.build(player)`.
+Create a new hotbar `new InterfaceHotbar()` create items `new InterfaceItem()` set them `hotbar.setItem(slot, item)` and build it `hotbar.build(player)`.
 
 # Join us
 
