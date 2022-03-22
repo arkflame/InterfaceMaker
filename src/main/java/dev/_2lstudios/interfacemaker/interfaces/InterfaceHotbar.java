@@ -26,8 +26,9 @@ public class InterfaceHotbar {
         return false;
     }
 
-    public void setItem(int slot, InterfaceItem item) {
+    public InterfaceHotbar setItem(int slot, InterfaceItem item) {
         items.put(slot, item);
+        return this;
     }
 
     public void build(Player player) {
