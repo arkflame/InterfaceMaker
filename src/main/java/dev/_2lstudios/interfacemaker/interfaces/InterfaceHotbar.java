@@ -8,15 +8,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import dev._2lstudios.interfacemaker.InterfaceMaker;
+
 public class InterfaceHotbar {
-    private InterfaceMakerAPI api;
+    private InterfaceMakerAPI api = InterfaceMaker.getAPI();
     private Map<Integer, InterfaceItem> items = new HashMap<>();
     private int autoRefresh = 0;
     private boolean giveOnSpawn = false;
-
-    public InterfaceHotbar(InterfaceMakerAPI api) {
-        this.api = api;
-    }
 
     public InterfaceItem getItem(int slot) {
         return items.getOrDefault(slot, null);

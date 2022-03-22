@@ -18,7 +18,7 @@ public class MenuConfigProcessor {
     }
 
     public void process(String menuName, Configuration config) {
-        InterfaceMenu interfaceMenu = api.createMenu();
+        InterfaceMenu interfaceMenu = new InterfaceMenu();
         ConfigurationSection menuSettings = config.getConfigurationSection("menu-settings");
         String title = menuSettings.getString("name");
         int rows = menuSettings.getInt("rows");

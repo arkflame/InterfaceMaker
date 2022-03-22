@@ -4,28 +4,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 public class InterfaceMakerAPI {
-    private Server server;
     private Map<String, InterfaceMenu> configuredInventories = new HashMap<>();
     private Map<String, InterfaceHotbar> configuredHotbars = new HashMap<>();
     private Map<Inventory, InterfaceMenu> openedInventories = new HashMap<>();
     private Map<Player, InterfaceHotbar> openedHotbars = new HashMap<>();
-
-    public InterfaceMakerAPI(Server server) {
-        this.server = server;
-    }
-
-    public InterfaceMenu createMenu() {
-        return new InterfaceMenu(this, server);
-    }
-
-    public InterfaceHotbar createHotbar() {
-        return new InterfaceHotbar(this);
-    }
 
     public InterfaceMenu getConfiguredMenu(String name) {
         return configuredInventories.getOrDefault(name, null);

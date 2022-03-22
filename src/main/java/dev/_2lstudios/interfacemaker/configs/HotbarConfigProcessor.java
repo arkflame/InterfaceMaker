@@ -18,7 +18,7 @@ public class HotbarConfigProcessor {
     }
 
     public void process(String menuName, Configuration config) {
-        InterfaceHotbar interfaceHotbar = new InterfaceHotbar(api);
+        InterfaceHotbar interfaceHotbar = new InterfaceHotbar();
         ConfigurationSection hotbarSettings = config.getConfigurationSection("hotbar-settings");
         int autoRefresh = hotbarSettings.getInt("auto-refresh");
         boolean giveOnSpawn = hotbarSettings.getBoolean("give-on-spawn");

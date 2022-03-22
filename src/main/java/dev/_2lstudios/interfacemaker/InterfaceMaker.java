@@ -56,7 +56,7 @@ public class InterfaceMaker extends JavaPlugin {
     @Override
     public void onEnable() {
         Server server = getServer();
-        InterfaceMaker.api = new InterfaceMakerAPI(server);
+        InterfaceMaker.api = new InterfaceMakerAPI();
         PluginManager pluginManager = server.getPluginManager();
 
         reloadFiles();

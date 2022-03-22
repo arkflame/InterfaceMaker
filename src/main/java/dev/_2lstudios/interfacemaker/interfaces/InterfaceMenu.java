@@ -6,17 +6,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 
 public class InterfaceMenu {
-    private InterfaceMakerAPI api;
-    private Server server;
+    private InterfaceMakerAPI api = InterfaceMaker.getAPI();
+    private Server server = Bukkit.getServer();
     private Map<Integer, InterfaceItem> items = new HashMap<>();
     private String title = "InterfaceMaker";
     private int size = 27;
@@ -27,11 +29,6 @@ public class InterfaceMenu {
     private Material openWithItemMaterial = null;
     private boolean openWithItemLeftClick = false;
     private boolean openWithItemRightClick = true;
-
-    public InterfaceMenu(InterfaceMakerAPI api, Server server) {
-        this.api = api;
-        this.server = server;
-    }
 
     public InterfaceMenu setTitle(String title) {
         this.title = title;
@@ -169,5 +166,9 @@ public class InterfaceMenu {
 
     public boolean isOpenWithItemRightClick() {
         return openWithItemRightClick;
+    }
+
+    public void onBuild(Player player) {
+        // Overriden by super class
     }
 }
