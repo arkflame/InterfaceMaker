@@ -22,7 +22,9 @@ Clone this repository, run `mvn package` and get the binaries from `./target/` f
 
 ## Creating a Menu
 
-Get the API `InterfaceMaker.getAPI()` create a new menu `api.createMenu()` create items `new InterfaceItem()` set them `menu.setItem(slot, item)` and build it `menu.build(player)`.
+Create a new menu `new InterfaceMenu()` create items `new InterfaceItem()` set them `menu.setItem(slot, item)` and build it `menu.build(player)`.
+
+Menus can be extended and use the `onBuild(player)` event. Items can be extended to use the `onInteract(player)` and `onClick(player, clickedInventory)` events.
 
 ## Creating a Hotbar
 

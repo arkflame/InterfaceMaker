@@ -61,6 +61,7 @@ public class InterfaceMenu {
     public void build(Player player) {
         Inventory inventory = server.createInventory(player, size, Formatter.format(player, title));
 
+        onBuild(player);
         populateItems(player, inventory);
 
         if (player.getInventory() != inventory) {
