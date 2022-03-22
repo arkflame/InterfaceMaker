@@ -40,7 +40,7 @@ public class InterfaceMenu {
         return this;
     }
 
-    public void populateItems(Player player, Inventory inventory) {
+    public void populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items) {
         int inventorySize = inventory.getSize();
 
         for (Entry<Integer, InterfaceItem> entry : items.entrySet()) {
@@ -58,11 +58,17 @@ public class InterfaceMenu {
         }
     }
 
+    public void populateItems(Player player, Inventory inventory) {
+        populateItems(player, inventory, items);
+    }
+
     public void build(Player player) {
         Inventory inventory = server.createInventory(player, size, Formatter.format(player, title));
+        MenuBuildContext context = new MenuBuildContext(player, inventory);
 
-        onBuild(player);
+        onBuild(context);
         populateItems(player, inventory);
+        populateItems(player, inventory, context.getItems());
 
         if (player.getInventory() != inventory) {
             player.openInventory(inventory);
@@ -169,7 +175,7 @@ public class InterfaceMenu {
         return openWithItemRightClick;
     }
 
-    public void onBuild(Player player) {
+    public void onBuild(MenuBuildContext context) {
         // Overriden by super class
     }
 }
