@@ -22,9 +22,9 @@ Clone this repository, run `mvn package` and get the binaries from `./target/` f
 
 ## Creating a Menu
 
-Create a new menu `new InterfaceMenu()` create items `new InterfaceItem()` set them `menu.setItem(slot, item)` and build it `menu.build(player)`.
+Create a new menu `new InterfaceMenu()` create items `new InterfaceItem()` set them `menu.setItem(Integer, InterfaceItem)` and build it `menu.build(Player)`.
 
-Menus can be extended and use the `onBuild(player)` event. Items can be extended to use the `onInteract(player)` and `onClick(player, clickedInventory)` events.
+Menus can be extended and use the `onBuild(MenuBuildContext)` event. Items can be extended to use the `onInteract(Player)` and `onClick(Player, Inventory)` events.
 
 ## Creating a Hotbar
 
