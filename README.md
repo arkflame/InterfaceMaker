@@ -22,11 +22,11 @@ Clone this repository, run `mvn package` and get the binaries from `./target/` f
 
 ## Creating a Menu
 
-Get the API `InterfaceMaker.getAPI()` create a new menu `.createMenu()` create items `new InterfaceItem()` set them `.setItem(slot, item)` and build it `.build(player)`.
+Get the API `InterfaceMaker.getAPI()` create a new menu `api.createMenu()` create items `new InterfaceItem()` set them `menu.setItem(slot, item)` and build it `menu.build(player)`.
 
 ## Creating a Hotbar
 
-Get the API `InterfaceMaker.getAPI()` create a new menu `.createHotbar()` create items `new InterfaceItem()` set them `.setItem(slot, item)` and build it `.build(player)`.
+Get the API `InterfaceMaker.getAPI()` create a new menu `api.createHotbar()` create items `new InterfaceItem()` set them `hotbar.setItem(slot, item)` and build it `hotbar.build(player)`.
 
 # Join us
 
