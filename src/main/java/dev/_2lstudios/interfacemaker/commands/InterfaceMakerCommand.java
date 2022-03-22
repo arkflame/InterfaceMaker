@@ -7,7 +7,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
