@@ -1,11 +1,9 @@
 package dev._2lstudios.interfacemaker.interfaces;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.interfaces.contexts.HotbarBuildContext;
@@ -56,23 +54,11 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
 
     public void build(Player player) {
         Inventory inventory = player.getInventory();
+        HotbarBuildContext context = new HotbarBuildContext(player);
 
-        inventory.clear();
-
-        for (Entry<Integer, InterfaceItem> entry : getItems().entrySet()) {
-            int slot = entry.getKey();
-
-            if (slot > -1 && slot < inventory.getSize()) {
-                InterfaceItem interfaceItem = entry.getValue();
-                ItemStack item = interfaceItem.build(player);
-
-                try {
-                    inventory.setItem(slot, item);
-                } catch (IndexOutOfBoundsException ex) {
-                    // Ignored
-                }
-            }
-        }
+        onBuild(context);
+        populateItems(player, inventory);
+        populateItems(player, inventory, context.getItems());
 
         api.setHotbar(player, this);
     }
