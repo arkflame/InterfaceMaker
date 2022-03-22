@@ -1,27 +1,24 @@
 package dev._2lstudios.interfacemaker.interfaces;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
+import dev._2lstudios.interfacemaker.interfaces.contexts.MenuBuildContext;
+import dev._2lstudios.interfacemaker.interfaces.holders.InterfaceInventoryHolder;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 
-public class InterfaceMenu {
+public class InterfaceMenu extends InterfaceInventoryHolder {
     private InterfaceMakerAPI api = InterfaceMaker.getAPI();
     private Server server = Bukkit.getServer();
-    private Map<Integer, InterfaceItem> items = new HashMap<>();
     private String title = "InterfaceMaker";
-    private int size = 27;
     private boolean movement = false;
     private Collection<String> commands = new HashSet<>();
     private int autoRefresh = 0;
@@ -30,40 +27,47 @@ public class InterfaceMenu {
     private boolean openWithItemLeftClick = false;
     private boolean openWithItemRightClick = true;
 
+    public InterfaceMenu() {
+        super(27);
+    }
+
+    public InterfaceMenu setItem(int slot, InterfaceItem item) {
+        super.setItem(slot, item);
+        return this;
+    }
+
+    public InterfaceMenu populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items) {
+        super.populateItems(player, inventory, items);
+        return this;
+    }
+
+    public InterfaceMenu populateItems(Player player, Inventory inventory) {
+        super.populateItems(player, inventory);
+        return this;
+    }
+
+    public InterfaceMenu setRows(int rows) {
+        super.setRows(rows);
+        return this;
+    }
+
+    public InterfaceMenu fill(int gap, InterfaceItem... items) {
+        super.fill(gap, items);
+        return this;
+    }
+
+    public InterfaceMenu fillEmpty(InterfaceItem item) {
+        super.fillEmpty(item);
+        return this;
+    }
+
     public InterfaceMenu setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public InterfaceMenu setRows(int rows) {
-        this.size = rows * 9;
-        return this;
-    }
-
-    public void populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items) {
-        int inventorySize = inventory.getSize();
-
-        for (Entry<Integer, InterfaceItem> entry : items.entrySet()) {
-            int slot = entry.getKey();
-            InterfaceItem interfaceItem = entry.getValue();
-            ItemStack item = interfaceItem.build(player);
-
-            if (slot < inventorySize) {
-                try {
-                    inventory.setItem(slot, item);
-                } catch (IndexOutOfBoundsException ex) {
-                    // Ignored
-                }
-            }
-        }
-    }
-
-    public void populateItems(Player player, Inventory inventory) {
-        populateItems(player, inventory, items);
-    }
-
-    public void build(Player player) {
-        Inventory inventory = server.createInventory(player, size, Formatter.format(player, title));
+    public InterfaceMenu build(Player player) {
+        Inventory inventory = server.createInventory(player, getSize(), Formatter.format(player, title));
         MenuBuildContext context = new MenuBuildContext(player, inventory);
 
         onBuild(context);
@@ -75,43 +79,6 @@ public class InterfaceMenu {
         }
 
         api.setOpened(inventory, this);
-    }
-
-    public InterfaceItem getItem(int slot) {
-        return items.getOrDefault(slot, null);
-    }
-
-    public InterfaceMenu setItem(int slot, InterfaceItem item) {
-        items.put(slot, item);
-        return this;
-    }
-
-    public InterfaceMenu fill(int gap, InterfaceItem ...items) {
-        int firstSlot = gap * 8 + gap * 2;
-        int itemIndex = 1;
-
-        for (int slot = firstSlot; slot < size; slot++) {
-            if (itemIndex - 1 >= items.length) {
-                break;
-            }
-
-            setItem(slot, items[itemIndex - 1]);
-
-            if (itemIndex % (9 - gap * 2) == 0) {
-                slot += (gap * 2);
-            }
-
-            itemIndex++;
-        }
-        return this;
-    }
-
-    public InterfaceMenu fillEmpty(InterfaceItem item) {
-        for (int i = 0; i < size; i++) {
-            if (!items.containsKey(i)) {
-                items.put(i, item);
-            }
-        }
         return this;
     }
 

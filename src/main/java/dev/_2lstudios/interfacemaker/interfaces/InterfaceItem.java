@@ -70,6 +70,15 @@ public class InterfaceItem {
         return setLore(Arrays.asList(lore));
     }
 
+    public InterfaceItem setLore(String lore) {
+        return setLore(new String[] { lore });
+    }
+
+    public InterfaceItem addLoreLine(String line) {
+        this.lore.add(line);
+        return this;
+    }
+
     public InterfaceItem setType(Material type) {
         this.type = type == null ? Material.DIRT : type;
         return this;

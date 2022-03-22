@@ -1,6 +1,5 @@
 package dev._2lstudios.interfacemaker.interfaces;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,24 +8,50 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
+import dev._2lstudios.interfacemaker.interfaces.contexts.HotbarBuildContext;
+import dev._2lstudios.interfacemaker.interfaces.holders.InterfaceInventoryHolder;
 
-public class InterfaceHotbar {
+public class InterfaceHotbar extends InterfaceInventoryHolder {
     private InterfaceMakerAPI api = InterfaceMaker.getAPI();
-    private Map<Integer, InterfaceItem> items = new HashMap<>();
     private int autoRefresh = 0;
     private boolean giveOnSpawn = false;
 
-    public InterfaceItem getItem(int slot) {
-        return items.getOrDefault(slot, null);
+    public InterfaceHotbar() {
+        super(9);
+    }
+
+    public InterfaceHotbar setItem(int slot, InterfaceItem item) {
+        super.setItem(slot, item);
+        return this;
+    }
+
+    public InterfaceHotbar populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items) {
+        super.populateItems(player, inventory, items);
+        return this;
+    }
+
+    public InterfaceHotbar populateItems(Player player, Inventory inventory) {
+        super.populateItems(player, inventory);
+        return this;
+    }
+
+    public InterfaceHotbar setRows(int rows) {
+        super.setRows(rows);
+        return this;
+    }
+
+    public InterfaceHotbar fill(int gap, InterfaceItem... items) {
+        super.fill(gap, items);
+        return this;
+    }
+
+    public InterfaceHotbar fillEmpty(InterfaceItem item) {
+        super.fillEmpty(item);
+        return this;
     }
 
     public boolean allowsMovement() {
         return false;
-    }
-
-    public InterfaceHotbar setItem(int slot, InterfaceItem item) {
-        items.put(slot, item);
-        return this;
     }
 
     public void build(Player player) {
@@ -34,7 +59,7 @@ public class InterfaceHotbar {
 
         inventory.clear();
 
-        for (Entry<Integer, InterfaceItem> entry : items.entrySet()) {
+        for (Entry<Integer, InterfaceItem> entry : getItems().entrySet()) {
             int slot = entry.getKey();
 
             if (slot > -1 && slot < inventory.getSize()) {
@@ -50,15 +75,6 @@ public class InterfaceHotbar {
         }
 
         api.setHotbar(player, this);
-    }
-
-    public InterfaceHotbar fillEmpty(InterfaceItem item) {
-        for (int i = 0; i < 9; i++) {
-            if (!items.containsKey(i)) {
-                items.put(i, item);
-            }
-        }
-        return this;
     }
 
     public InterfaceHotbar setGiveOnSpawn(boolean giveOnSpawn) {
@@ -77,5 +93,9 @@ public class InterfaceHotbar {
 
     public int getAutoRefresh() {
         return autoRefresh;
+    }
+
+    public void onBuild(HotbarBuildContext context) {
+        // Overriden by super class
     }
 }
