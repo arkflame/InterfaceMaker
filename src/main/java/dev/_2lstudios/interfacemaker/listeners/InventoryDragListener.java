@@ -8,7 +8,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
-import dev._2lstudios.interfacemaker.interfaces.InterfaceInventory;
+import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
@@ -23,13 +23,13 @@ public class InventoryDragListener implements Listener {
     public void onInventoryDrag(InventoryDragEvent event) {
         InventoryView view = event.getView();
         Inventory topInventory = view.getTopInventory();
-        InterfaceInventory interfaceInventory = api.getOpenedInventory(topInventory);
+        InterfaceMenu interfaceMenu = api.getOpenedMenu(topInventory);
 
-        if (interfaceInventory != null && interfaceInventory.allowsMovement()) {
+        if (interfaceMenu != null && interfaceMenu.allowsMovement()) {
             Collection<Integer> slots = event.getInventorySlots();
 
             for (int slot : slots) {
-                InterfaceItem interfaceItem = interfaceInventory.getItem(slot);
+                InterfaceItem interfaceItem = interfaceMenu.getItem(slot);
 
                 if (interfaceItem != null) {
                     if (!interfaceItem.allowsMovement()) {

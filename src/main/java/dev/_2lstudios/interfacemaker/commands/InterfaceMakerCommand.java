@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
-import dev._2lstudios.interfacemaker.interfaces.InterfaceInventory;
+import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
 public class InterfaceMakerCommand implements CommandExecutor {
@@ -53,7 +53,7 @@ public class InterfaceMakerCommand implements CommandExecutor {
                             break;
                         }
                         case "menu": {
-                            InterfaceInventory inventory = api.getConfiguredInventory(fileName);
+                            InterfaceMenu inventory = api.getConfiguredMenu(fileName);
 
                             if (inventory != null) {
                                 Player player = plugin.getServer().getPlayer(playerName);
@@ -89,7 +89,7 @@ public class InterfaceMakerCommand implements CommandExecutor {
                                 break;
                             }
                             case "menu": {
-                                InterfaceInventory inventory = api.getConfiguredInventory(fileName);
+                                InterfaceMenu inventory = api.getConfiguredMenu(fileName);
 
                                 if (inventory != null) {
                                     inventory.build(player);

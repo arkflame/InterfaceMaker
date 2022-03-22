@@ -284,7 +284,7 @@ public class InterfaceItem {
                         break;
                     }
                     case "open-menu:": {
-                        InterfaceInventory inventory = api.getConfiguredInventory(action.replace("open-menu: ", ""));
+                        InterfaceMenu inventory = api.getConfiguredMenu(action.replace("open-menu: ", ""));
 
                         if (inventory != null) {
                             inventory.build(player);

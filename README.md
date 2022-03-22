@@ -20,6 +20,14 @@ You can get a copy of InterfaceMaker on MC-Market.
 
 Clone this repository, run `mvn package` and get the binaries from `./target/` folder.
 
+## Creating a Menu
+
+Get the API `InterfaceMaker.getAPI()` create a new menu `.createMenu()` create items `new InterfaceItem()` set them `.setItem(slot, item)` and build it `.build(player)`.
+
+## Creating a Hotbar
+
+Get the API `InterfaceMaker.getAPI()` create a new menu `.createHotbar()` create items `new InterfaceItem()` set them `.setItem(slot, item)` and build it `.build(player)`.
+
 # Join us
 
 <a href="https://discord.gg/gF36AT3"><img src="https://discord.com/assets/4ff060e44afc171e9622fbe589c2c09e.png" width=10% height=10%><img/><a/>

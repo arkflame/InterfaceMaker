@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
-import dev._2lstudios.interfacemaker.interfaces.InterfaceInventory;
+import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
@@ -32,7 +32,7 @@ public class PlayerInteractListener implements Listener {
         if (item != null) {
             Material material = item.getType();
 
-            for (InterfaceInventory inventory : api.getConfiguredInventoriesValues()) {
+            for (InterfaceMenu inventory : api.getConfiguredInventoriesValues()) {
                 Action action = event.getAction();
                 boolean isActionLeft = action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
                 boolean isActionRight = action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;

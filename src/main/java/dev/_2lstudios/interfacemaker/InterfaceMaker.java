@@ -26,10 +26,9 @@ public class InterfaceMaker extends JavaPlugin {
         api.clearConfiguredHotbars();
         api.clearConfiguredInventories();
 
-        Server server = getServer();
         ConfigManager configManager = new ConfigManager(this);
         HotbarConfigProcessor hotbarConfigProcessor = new HotbarConfigProcessor(api);
-        MenuConfigProcessor menuConfigProcessor = new MenuConfigProcessor(api, server);
+        MenuConfigProcessor menuConfigProcessor = new MenuConfigProcessor(api);
         File hotBarsFolder = new File(getDataFolder(), "hotbars");
         File menusFolder = new File(getDataFolder(), "menus");
 
@@ -56,8 +55,9 @@ public class InterfaceMaker extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        InterfaceMaker.api = new InterfaceMakerAPI();
-        PluginManager pluginManager = getServer().getPluginManager();
+        Server server = getServer();
+        InterfaceMaker.api = new InterfaceMakerAPI(server);
+        PluginManager pluginManager = server.getPluginManager();
 
         reloadFiles();
 

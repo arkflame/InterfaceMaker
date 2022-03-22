@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import dev._2lstudios.interfacemaker.interfaces.InterfaceInventory;
+import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
 public class PlayerCommandPreProcessListener implements Listener {
@@ -19,7 +19,7 @@ public class PlayerCommandPreProcessListener implements Listener {
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
         String message = event.getMessage();
 
-        for (InterfaceInventory inventory : api.getConfiguredInventoriesValues()) {
+        for (InterfaceMenu inventory : api.getConfiguredInventoriesValues()) {
             if (inventory.getCommands().contains(message)) {
                 Player player = event.getPlayer();
 

@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 
-public class InterfaceInventory {
+public class InterfaceMenu {
     private InterfaceMakerAPI api;
     private Server server;
     private Map<Integer, InterfaceItem> items = new HashMap<>();
@@ -28,17 +28,17 @@ public class InterfaceInventory {
     private boolean openWithItemLeftClick = false;
     private boolean openWithItemRightClick = true;
 
-    public InterfaceInventory(InterfaceMakerAPI api, Server server) {
+    public InterfaceMenu(InterfaceMakerAPI api, Server server) {
         this.api = api;
         this.server = server;
     }
 
-    public InterfaceInventory setTitle(String title) {
+    public InterfaceMenu setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public InterfaceInventory setRows(int rows) {
+    public InterfaceMenu setRows(int rows) {
         this.size = rows * 9;
         return this;
     }
@@ -77,12 +77,12 @@ public class InterfaceInventory {
         return items.getOrDefault(slot, null);
     }
 
-    public InterfaceInventory setItem(int slot, InterfaceItem item) {
+    public InterfaceMenu setItem(int slot, InterfaceItem item) {
         items.put(slot, item);
         return this;
     }
 
-    public InterfaceInventory fill(int gap, InterfaceItem ...items) {
+    public InterfaceMenu fill(int gap, InterfaceItem ...items) {
         int firstSlot = gap * 8 + gap * 2;
         int itemIndex = 1;
 
@@ -102,7 +102,7 @@ public class InterfaceInventory {
         return this;
     }
 
-    public InterfaceInventory fillEmpty(InterfaceItem item) {
+    public InterfaceMenu fillEmpty(InterfaceItem item) {
         for (int i = 0; i < size; i++) {
             if (!items.containsKey(i)) {
                 items.put(i, item);
@@ -115,22 +115,22 @@ public class InterfaceInventory {
         return movement;
     }
 
-    public InterfaceInventory setCommands(Collection<String> commands) {
+    public InterfaceMenu setCommands(Collection<String> commands) {
         this.commands = commands;
         return this;
     }
 
-    public InterfaceInventory setAutoRefresh(int autoRefresh) {
+    public InterfaceMenu setAutoRefresh(int autoRefresh) {
         this.autoRefresh = autoRefresh;
         return this;
     }
 
-    public InterfaceInventory setOpenActions(Collection<String> openActions) {
+    public InterfaceMenu setOpenActions(Collection<String> openActions) {
         this.openActions = openActions;
         return this;
     }
 
-    public InterfaceInventory setOpenWithItem(Material openWithItemMaterial, boolean openWithItemLeftClick,
+    public InterfaceMenu setOpenWithItem(Material openWithItemMaterial, boolean openWithItemLeftClick,
             boolean openWithItemRightClick) {
         this.openWithItemMaterial = openWithItemMaterial;
         this.openWithItemLeftClick = openWithItemLeftClick;
@@ -142,7 +142,7 @@ public class InterfaceInventory {
         return movement;
     }
 
-    public InterfaceInventory setMovement(boolean movement) {
+    public InterfaceMenu setMovement(boolean movement) {
         this.movement = movement;
         return this;
     }

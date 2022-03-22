@@ -9,7 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
 import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
-import dev._2lstudios.interfacemaker.interfaces.InterfaceInventory;
+import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
@@ -48,14 +48,14 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            InterfaceInventory interfaceInventory = api.getOpenedInventory(clickedInventory);
+            InterfaceMenu interfaceMenu = api.getOpenedMenu(clickedInventory);
 
-            if (interfaceInventory != null) {
-                if (!interfaceInventory.allowsMovement()) {
+            if (interfaceMenu != null) {
+                if (!interfaceMenu.allowsMovement()) {
                     event.setCancelled(true);
                 }
 
-                    InterfaceItem interfaceItem = interfaceInventory.getItem(slot);
+                    InterfaceItem interfaceItem = interfaceMenu.getItem(slot);
 
                     if (interfaceItem != null) {
                         if (!interfaceItem.allowsMovement()) {

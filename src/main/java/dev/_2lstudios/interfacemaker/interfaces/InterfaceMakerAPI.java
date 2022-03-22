@@ -4,29 +4,43 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 public class InterfaceMakerAPI {
-    private Map<String, InterfaceInventory> configuredInventories = new HashMap<>();
+    private Server server;
+    private Map<String, InterfaceMenu> configuredInventories = new HashMap<>();
     private Map<String, InterfaceHotbar> configuredHotbars = new HashMap<>();
-    private Map<Inventory, InterfaceInventory> openedInventories = new HashMap<>();
+    private Map<Inventory, InterfaceMenu> openedInventories = new HashMap<>();
     private Map<Player, InterfaceHotbar> openedHotbars = new HashMap<>();
 
-    public InterfaceInventory getConfiguredInventory(String name) {
+    public InterfaceMakerAPI(Server server) {
+        this.server = server;
+    }
+
+    public InterfaceMenu createMenu() {
+        return new InterfaceMenu(this, server);
+    }
+
+    public InterfaceHotbar createHotbar() {
+        return new InterfaceHotbar(this);
+    }
+
+    public InterfaceMenu getConfiguredMenu(String name) {
         return configuredInventories.getOrDefault(name, null);
     }
 
-    public Collection<InterfaceInventory> getConfiguredInventoriesValues() {
+    public Collection<InterfaceMenu> getConfiguredInventoriesValues() {
         return configuredInventories.values();
     }
 
-    public Map<String, InterfaceInventory> getConfiguredInventories() {
+    public Map<String, InterfaceMenu> getConfiguredInventories() {
         return configuredInventories;
     }
 
-    public void addConfiguredInventory(String name, InterfaceInventory interfaceInventory) {
-        configuredInventories.put(name, interfaceInventory);
+    public void addConfiguredMenu(String name, InterfaceMenu interfaceMenu) {
+        configuredInventories.put(name, interfaceMenu);
     }
 
     public InterfaceHotbar getConfiguredHotbar(String name) {
@@ -45,12 +59,12 @@ public class InterfaceMakerAPI {
         configuredHotbars.put(name, interfaceHotbar);
     }
 
-    public InterfaceInventory getOpenedInventory(Inventory inventory) {
+    public InterfaceMenu getOpenedMenu(Inventory inventory) {
         return openedInventories.getOrDefault(inventory, null);
     }
 
-    public void setOpened(Inventory inventory, InterfaceInventory interfaceInventory) {
-        openedInventories.put(inventory, interfaceInventory);
+    public void setOpened(Inventory inventory, InterfaceMenu interfaceMenu) {
+        openedInventories.put(inventory, interfaceMenu);
     }
 
     public void setClosed(Inventory inventory) {

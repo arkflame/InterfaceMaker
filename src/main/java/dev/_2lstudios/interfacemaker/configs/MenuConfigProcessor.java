@@ -3,25 +3,22 @@ package dev._2lstudios.interfacemaker.configs;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
-import dev._2lstudios.interfacemaker.interfaces.InterfaceInventory;
+import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
 public class MenuConfigProcessor {
     private InterfaceMakerAPI api;
-    private Server server;
 
-    public MenuConfigProcessor(InterfaceMakerAPI api, Server server) {
+    public MenuConfigProcessor(InterfaceMakerAPI api) {
         this.api = api;
-        this.server = server;
     }
 
     public void process(String menuName, Configuration config) {
-        InterfaceInventory interfaceInventory = new InterfaceInventory(api, server);
+        InterfaceMenu interfaceMenu = api.createMenu();
         ConfigurationSection menuSettings = config.getConfigurationSection("menu-settings");
         String title = menuSettings.getString("name");
         int rows = menuSettings.getInt("rows");
@@ -29,11 +26,11 @@ public class MenuConfigProcessor {
         int autoRefresh = menuSettings.getInt("auto-refresh");
         List<String> openActions = menuSettings.getStringList("open-actions");
 
-        interfaceInventory.setTitle(title);
-        interfaceInventory.setRows(rows);
-        interfaceInventory.setCommands(commands);
-        interfaceInventory.setAutoRefresh(autoRefresh);
-        interfaceInventory.setOpenActions(openActions);
+        interfaceMenu.setTitle(title);
+        interfaceMenu.setRows(rows);
+        interfaceMenu.setCommands(commands);
+        interfaceMenu.setAutoRefresh(autoRefresh);
+        interfaceMenu.setOpenActions(openActions);
 
         if (menuSettings.contains("open-with-item")) {
             ConfigurationSection openWithItem = menuSettings.getConfigurationSection("open-with-item");
@@ -43,7 +40,7 @@ public class MenuConfigProcessor {
             boolean rightClick = openWithItem.getBoolean("right-click");
 
             if (material != null) {
-                interfaceInventory.setOpenWithItem(material, leftClick, rightClick);
+                interfaceMenu.setOpenWithItem(material, leftClick, rightClick);
             }
         }
 
@@ -84,12 +81,12 @@ public class MenuConfigProcessor {
                         interfaceItem.setLevels(levels);
                         interfaceItem.setPrice(price);
                         interfaceItem.setActions(actions);
-                        interfaceInventory.setItem(slot, interfaceItem);
+                        interfaceMenu.setItem(slot, interfaceItem);
                     }
                 }
             }
         }
 
-        api.addConfiguredInventory(menuName, interfaceInventory);
+        api.addConfiguredMenu(menuName, interfaceMenu);
     }
 }
