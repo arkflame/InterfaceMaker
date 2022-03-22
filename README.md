@@ -1,6 +1,6 @@
 # Interface Maker
 
-InterfaceMaker is a revoluationary plugin to handle and customize join items, hotbars and menus with a developer friendly API.
+InterfaceMaker is a modern plugin to handle and customize join items, hotbars and menus with a developer friendly API.
 
 # Features
 
