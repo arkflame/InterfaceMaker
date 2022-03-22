@@ -19,7 +19,7 @@ public class InterfaceInventory {
     private Server server;
     private Map<Integer, InterfaceItem> items = new HashMap<>();
     private String title = "InterfaceMaker";
-    private int size = 24;
+    private int size = 27;
     private boolean movement = false;
     private Collection<String> commands = new HashSet<>();
     private int autoRefresh = 0;
@@ -65,7 +65,11 @@ public class InterfaceInventory {
         Inventory inventory = server.createInventory(player, size, Formatter.format(player, title));
 
         populateItems(player, inventory);
-        player.openInventory(inventory);
+
+        if (player.getInventory() != inventory) {
+            player.openInventory(inventory);
+        }
+
         api.setOpened(inventory, this);
     }
 
@@ -73,8 +77,38 @@ public class InterfaceInventory {
         return items.getOrDefault(slot, null);
     }
 
-    public void setItem(int slot, InterfaceItem item) {
+    public InterfaceInventory setItem(int slot, InterfaceItem item) {
         items.put(slot, item);
+        return this;
+    }
+
+    public InterfaceInventory fill(int gap, InterfaceItem ...items) {
+        int firstSlot = gap * 8 + gap * 2;
+        int itemIndex = 1;
+
+        for (int slot = firstSlot; slot < size; slot++) {
+            if (itemIndex - 1 >= items.length) {
+                break;
+            }
+
+            setItem(slot, items[itemIndex - 1]);
+
+            if (itemIndex % (9 - gap * 2) == 0) {
+                slot += (gap * 2);
+            }
+
+            itemIndex++;
+        }
+        return this;
+    }
+
+    public InterfaceInventory fillEmpty(InterfaceItem item) {
+        for (int i = 0; i < size; i++) {
+            if (!items.containsKey(i)) {
+                items.put(i, item);
+            }
+        }
+        return this;
     }
 
     public boolean allowsMovement() {

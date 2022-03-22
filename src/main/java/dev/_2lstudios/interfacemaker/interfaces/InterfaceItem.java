@@ -104,14 +104,6 @@ public class InterfaceItem {
         return interaction;
     }
 
-    public void onClick(Player player, Inventory clickedInventory) {
-        // Overriden by super class
-    }
-
-    public void onInteract(Player player) {
-        // Overriden by super class
-    }
-
     public InterfaceItem setDurability(short durability) {
         this.durability = durability;
         return this;
@@ -326,5 +318,13 @@ public class InterfaceItem {
                 }
             }
         }
+    }
+
+    public void onClick(Player player, Inventory clickedInventory) {
+        // Overriden by super class
+    }
+
+    public void onInteract(Player player) {
+        // Overriden by super class
     }
 }

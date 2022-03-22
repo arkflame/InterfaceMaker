@@ -17,10 +17,10 @@ public class PlayerJoinListener implements Listener {
     
     @EventHandler(ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
         for (InterfaceHotbar hotbar : api.getConfiguredHotbarsValues()) {
             if (hotbar.giveOnSpawn()) {
-                Player player = event.getPlayer();
-                
                 hotbar.build(player);
                 break;
             }
