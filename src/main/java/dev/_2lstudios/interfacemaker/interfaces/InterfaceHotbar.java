@@ -56,6 +56,8 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
         Inventory inventory = player.getInventory();
         HotbarBuildContext context = new HotbarBuildContext(player);
 
+        inventory.clear();
+
         onBuild(context);
         populateItems(player, inventory);
         populateItems(player, inventory, context.getItems());
