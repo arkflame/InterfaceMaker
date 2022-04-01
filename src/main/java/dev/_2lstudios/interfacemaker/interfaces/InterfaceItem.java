@@ -66,7 +66,7 @@ public class InterfaceItem {
         return this;
     }
 
-    public InterfaceItem setLore(String[] lore) {
+    public InterfaceItem setLore(String... lore) {
         return setLore(Arrays.asList(lore));
     }
 
