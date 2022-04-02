@@ -6,12 +6,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 
 import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
-import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
+import dev._2lstudios.interfacemaker.interfaces.contexts.MenuBuildContext;
 
 public class InventoryClickListener implements Listener {
     private InterfaceMakerAPI api;
@@ -46,24 +47,28 @@ public class InventoryClickListener implements Listener {
                         interfaceItem.onClick(player, clickedInventory);
                     }
                 }
-            }
+            } else {
+                InventoryHolder inventoryHolder = clickedInventory.getHolder();
 
-            InterfaceMenu interfaceMenu = api.getOpenedMenu(clickedInventory);
+                if (inventoryHolder instanceof MenuBuildContext) {
+                    MenuBuildContext menuBuildContext = (MenuBuildContext) inventoryHolder;
 
-            if (interfaceMenu != null) {
-                if (!interfaceMenu.allowsMovement()) {
-                    event.setCancelled(true);
-                }
+                    if (menuBuildContext != null) {
+                        if (!menuBuildContext.getMenu().allowsMovement()) {
+                            event.setCancelled(true);
+                        }
 
-                InterfaceItem interfaceItem = interfaceMenu.getItem(slot);
+                        InterfaceItem interfaceItem = menuBuildContext.getItem(slot);
 
-                if (interfaceItem != null) {
-                    if (!interfaceItem.allowsMovement()) {
-                        event.setCancelled(true);
+                        if (interfaceItem != null) {
+                            if (!interfaceItem.allowsMovement()) {
+                                event.setCancelled(true);
+                            }
+
+                            interfaceItem.runActions(api, player);
+                            interfaceItem.onClick(player, clickedInventory);
+                        }
                     }
-
-                    interfaceItem.runActions(api, player);
-                    interfaceItem.onClick(player, clickedInventory);
                 }
             }
         }

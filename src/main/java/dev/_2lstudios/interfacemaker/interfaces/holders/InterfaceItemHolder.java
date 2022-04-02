@@ -21,6 +21,10 @@ public class InterfaceItemHolder {
         return items.getOrDefault(slot, null);
     }
 
+    public void addItems(Map<Integer, InterfaceItem> items) {
+        items.putAll(items);
+    }
+
     public InterfaceItemHolder setItem(int slot, InterfaceItem item) {
         items.put(slot, item);
         return this;
@@ -36,16 +40,20 @@ public class InterfaceItemHolder {
         for (Entry<Integer, InterfaceItem> entry : items.entrySet()) {
             int slot = entry.getKey();
             InterfaceItem interfaceItem = entry.getValue();
-            ItemStack item = interfaceItem.build(player);
 
-            if (slot < inventorySize) {
-                try {
-                    inventory.setItem(slot, item);
-                } catch (IndexOutOfBoundsException ex) {
-                    // Ignored
+            if (interfaceItem != null) {
+                ItemStack item = interfaceItem.build(player);
+
+                if (slot < inventorySize) {
+                    try {
+                        inventory.setItem(slot, item);
+                    } catch (IndexOutOfBoundsException ex) {
+                        // Ignored
+                    }
                 }
             }
         }
+
         return this;
     }
 

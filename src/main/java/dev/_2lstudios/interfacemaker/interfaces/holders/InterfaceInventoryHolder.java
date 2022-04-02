@@ -1,8 +1,12 @@
 package dev._2lstudios.interfacemaker.interfaces.holders;
 
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 
-public class InterfaceInventoryHolder extends InterfaceItemHolder {
+public class InterfaceInventoryHolder extends InterfaceItemHolder implements InventoryHolder {
+    private Inventory inventory;
     private int size;
 
     public InterfaceInventoryHolder(int inventorySize) {
@@ -45,5 +49,14 @@ public class InterfaceInventoryHolder extends InterfaceItemHolder {
             }
         }
         return this;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return inventory;
     }
 }
