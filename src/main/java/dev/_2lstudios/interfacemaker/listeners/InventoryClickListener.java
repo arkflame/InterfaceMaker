@@ -29,44 +29,47 @@ public class InventoryClickListener implements Listener {
             Player player = (Player) humanEntity;
             InventoryView view = event.getView();
             Inventory clickedInventory = event.getClickedInventory();
-            Inventory bottomInventory = view.getBottomInventory();
-            int slot = event.getSlot();
 
-            if (clickedInventory == bottomInventory) {
-                InterfaceHotbar interfaceHotbar = api.getHotbar(player);
+            if (clickedInventory != null) {
+                Inventory bottomInventory = view.getBottomInventory();
+                int slot = event.getSlot();
 
-                if (interfaceHotbar != null) {
-                    InterfaceItem interfaceItem = interfaceHotbar.getItem(slot);
+                if (clickedInventory == bottomInventory) {
+                    InterfaceHotbar interfaceHotbar = api.getHotbar(player);
 
-                    if (interfaceItem != null) {
-                        if (!interfaceHotbar.allowsMovement() || !interfaceItem.allowsMovement()) {
-                            event.setCancelled(true);
-                            return;
-                        }
-
-                        interfaceItem.onClick(player, clickedInventory);
-                    }
-                }
-            } else {
-                InventoryHolder inventoryHolder = clickedInventory.getHolder();
-
-                if (inventoryHolder instanceof MenuBuildContext) {
-                    MenuBuildContext menuBuildContext = (MenuBuildContext) inventoryHolder;
-
-                    if (menuBuildContext != null) {
-                        if (!menuBuildContext.getMenu().allowsMovement()) {
-                            event.setCancelled(true);
-                        }
-
-                        InterfaceItem interfaceItem = menuBuildContext.getItem(slot);
+                    if (interfaceHotbar != null) {
+                        InterfaceItem interfaceItem = interfaceHotbar.getItem(slot);
 
                         if (interfaceItem != null) {
-                            if (!interfaceItem.allowsMovement()) {
+                            if (!interfaceHotbar.allowsMovement() || !interfaceItem.allowsMovement()) {
+                                event.setCancelled(true);
+                                return;
+                            }
+
+                            interfaceItem.onClick(player, clickedInventory);
+                        }
+                    }
+                } else {
+                    InventoryHolder inventoryHolder = clickedInventory.getHolder();
+
+                    if (inventoryHolder instanceof MenuBuildContext) {
+                        MenuBuildContext menuBuildContext = (MenuBuildContext) inventoryHolder;
+
+                        if (menuBuildContext != null) {
+                            if (!menuBuildContext.getMenu().allowsMovement()) {
                                 event.setCancelled(true);
                             }
 
-                            interfaceItem.runActions(api, player);
-                            interfaceItem.onClick(player, clickedInventory);
+                            InterfaceItem interfaceItem = menuBuildContext.getItem(slot);
+
+                            if (interfaceItem != null) {
+                                if (!interfaceItem.allowsMovement()) {
+                                    event.setCancelled(true);
+                                }
+
+                                interfaceItem.runActions(api, player);
+                                interfaceItem.onClick(player, clickedInventory);
+                            }
                         }
                     }
                 }
