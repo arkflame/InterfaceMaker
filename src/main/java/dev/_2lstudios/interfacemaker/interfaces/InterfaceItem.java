@@ -71,7 +71,7 @@ public class InterfaceItem {
     }
 
     public InterfaceItem setLore(String lore) {
-        return setLore(new String[] { lore });
+        return setLore(lore.split("\n"));
     }
 
     public InterfaceItem addLoreLine(String line) {
