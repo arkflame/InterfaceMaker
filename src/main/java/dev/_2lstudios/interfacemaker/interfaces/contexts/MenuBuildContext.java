@@ -9,14 +9,14 @@ public class MenuBuildContext extends InterfaceInventoryHolder {
     private Player player;
     private InterfaceMenu menu;
 
-    public MenuBuildContext(Player player, InterfaceMenu menu, int inventorySize) {
-        super(inventorySize);
+    public MenuBuildContext(Player player, InterfaceMenu menu, String title, int inventorySize) {
+        super(inventorySize, title);
         this.player = player;
         this.menu = menu;
     }
 
     public MenuBuildContext(Player player, InterfaceMenu menu) {
-        super(menu.getSize());
+        super(menu.getSize(), menu.getTitle());
         this.player = player;
     }
 

@@ -18,7 +18,6 @@ import dev._2lstudios.interfacemaker.placeholders.Formatter;
 public class InterfaceMenu extends InterfaceInventoryHolder {
     private InterfaceMakerAPI api = InterfaceMaker.getAPI();
     private Server server = Bukkit.getServer();
-    private String title = "InterfaceMaker";
     private boolean movement = false;
     private Collection<String> commands = new HashSet<>();
     private int autoRefresh = 0;
@@ -28,7 +27,7 @@ public class InterfaceMenu extends InterfaceInventoryHolder {
     private boolean openWithItemRightClick = true;
 
     public InterfaceMenu() {
-        super(27);
+        super(27, "InterfaceMaker");
     }
 
     public InterfaceMenu setItem(int slot, InterfaceItem item) {
@@ -61,19 +60,15 @@ public class InterfaceMenu extends InterfaceInventoryHolder {
         return this;
     }
 
-    public InterfaceMenu setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
     public InterfaceMenu build(Player player) {
         int size = getSize();
-        MenuBuildContext context = new MenuBuildContext(player, this, size);
-        Inventory inventory = server.createInventory(context, size, Formatter.format(player, title));
-        context.setInventory(inventory);
+        MenuBuildContext context = new MenuBuildContext(player, this, getTitle(), size);
 
-        context.addItems(getItems());
         onBuild(context);
+
+        Inventory inventory = server.createInventory(context, size, Formatter.format(player, context.getTitle()));
+        context.setInventory(inventory);
+        context.addItems(getItems());
         context.populateItems(player, inventory);
 
         if (player.getInventory() != inventory) {

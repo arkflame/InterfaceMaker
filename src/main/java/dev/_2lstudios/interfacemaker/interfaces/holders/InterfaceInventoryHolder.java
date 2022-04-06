@@ -7,10 +7,21 @@ import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 
 public class InterfaceInventoryHolder extends InterfaceItemHolder implements InventoryHolder {
     private Inventory inventory;
+    private String title;
     private int size;
 
-    public InterfaceInventoryHolder(int inventorySize) {
+    public String getTitle() {
+        return title;
+    }
+
+    public InterfaceInventoryHolder setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public InterfaceInventoryHolder(int inventorySize, String title) {
         this.size = inventorySize;
+        this.title = title;
     }
 
     public InterfaceInventoryHolder setRows(int rows) {
