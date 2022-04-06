@@ -15,7 +15,7 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
     private boolean giveOnSpawn = false;
 
     public InterfaceHotbar() {
-        super(9);
+        super(9, "Hotbar");
     }
 
     public InterfaceHotbar setItem(int slot, InterfaceItem item) {

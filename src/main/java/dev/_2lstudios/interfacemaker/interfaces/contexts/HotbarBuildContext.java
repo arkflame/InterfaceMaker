@@ -8,7 +8,7 @@ public class HotbarBuildContext extends InterfaceInventoryHolder {
     private Player player;
 
     public HotbarBuildContext(Player player) {
-        super(9);
+        super(9, "Hotbar");
         this.player = player;
     }
 
