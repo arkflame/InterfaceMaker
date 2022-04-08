@@ -7,7 +7,7 @@
 
     <name>InterfaceMaker</name>
     <description>InterfaceMaker is a modern plugin to handle and customize join items, hotbars and menus with a developer and administrator friendly API.</description>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <url>https://github.com/2lstudios-mc/InterfaceMaker</url>
 
     <properties>
