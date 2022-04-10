@@ -13,8 +13,8 @@ menu-settings:
 example-item:
   material: WOOL
   durability: 14
-  position-x: 1
-  position-y: 1
+  position-x: 2
+  position-y: 2
   name: "<RAINBOW1>Example Item</RAINBOW>"
   lore:
     - "<SOLID:FF0080>This is a hex lore"

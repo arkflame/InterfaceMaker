@@ -32,7 +32,7 @@ public class HotbarConfigProcessor {
                     ConfigurationSection itemSection = config.getConfigurationSection(sectionName);
                     InterfaceItem interfaceItem = new InterfaceItem();
                     String materialName = itemSection.getString("material");
-                    Material material = Material.getMaterial(materialName);
+                    Material material = Material.getMaterial(materialName == null ? "STONE" : materialName);
                     int durability = itemSection.getInt("durability");
                     int slot = itemSection.getInt("position");
                     String name = itemSection.getString("name");

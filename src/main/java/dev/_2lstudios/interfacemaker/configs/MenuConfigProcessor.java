@@ -50,11 +50,11 @@ public class MenuConfigProcessor {
                     ConfigurationSection itemSection = config.getConfigurationSection(sectionName);
                     InterfaceItem interfaceItem = new InterfaceItem();
                     String materialName = itemSection.getString("material");
-                    Material material = Material.getMaterial(materialName);
+                    Material material = Material.getMaterial(materialName == null ? "STONE" : materialName);
                     int durability = itemSection.getInt("durability");
-                    int positionX = itemSection.getInt("position-x") - 1;
-                    int positionY = itemSection.getInt("position-y") - 1;
-                    int slot = positionX + (positionY * 8);
+                    int positionX = Math.max(0, itemSection.getInt("position-x") - 1);
+                    int positionY = Math.max(0, itemSection.getInt("position-y") - 1);
+                    int slot = positionX + (positionY * 9);
                     String name = itemSection.getString("name");
                     List<String> lore = itemSection.getStringList("lore");
                     List<String> enchantments = itemSection.getStringList("enchantments");

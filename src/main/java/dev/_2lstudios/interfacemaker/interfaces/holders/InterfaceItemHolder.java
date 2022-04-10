@@ -22,7 +22,7 @@ public class InterfaceItemHolder {
     }
 
     public void addItems(Map<Integer, InterfaceItem> items) {
-        items.putAll(items);
+        this.items.putAll(items);
     }
 
     public InterfaceItemHolder setItem(int slot, InterfaceItem item) {
