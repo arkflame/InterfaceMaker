@@ -26,39 +26,41 @@ public class HotbarConfigProcessor {
         interfaceHotbar.setAutoRefresh(autoRefresh);
         interfaceHotbar.setGiveOnSpawn(giveOnSpawn);
 
-        for (String sectionName : hotbarSettings.getKeys(false)) {
-            if (hotbarSettings.isConfigurationSection(sectionName)) {
-                ConfigurationSection itemSection = hotbarSettings.getConfigurationSection(sectionName);
-                InterfaceItem interfaceItem = new InterfaceItem();
-                String materialName = itemSection.getString("material");
-                Material material = Material.getMaterial(materialName);
-                int durability = itemSection.getInt("durability");
-                int slot = itemSection.getInt("position");
-                String name = itemSection.getString("name");
-                List<String> lore = itemSection.getStringList("lore");
-                List<String> enchantments = itemSection.getStringList("enchantments");
-                String permission = itemSection.getString("permission");
-                String viewPermission = itemSection.getString("view-permission");
-                String permissionMessage = itemSection.getString("permission-message");
-                List<String> requiredItems = itemSection.getStringList("required-items");
-                int levels = itemSection.getInt("levels");
-                int price = itemSection.getInt("price");
-                List<String> actions = itemSection.getStringList("actions");
+        for (String sectionName : config.getKeys(false)) {
+            if (!sectionName.equals("hotbar-settings")) {
+                if (hotbarSettings.isConfigurationSection(sectionName)) {
+                    ConfigurationSection itemSection = hotbarSettings.getConfigurationSection(sectionName);
+                    InterfaceItem interfaceItem = new InterfaceItem();
+                    String materialName = itemSection.getString("material");
+                    Material material = Material.getMaterial(materialName);
+                    int durability = itemSection.getInt("durability");
+                    int slot = itemSection.getInt("position");
+                    String name = itemSection.getString("name");
+                    List<String> lore = itemSection.getStringList("lore");
+                    List<String> enchantments = itemSection.getStringList("enchantments");
+                    String permission = itemSection.getString("permission");
+                    String viewPermission = itemSection.getString("view-permission");
+                    String permissionMessage = itemSection.getString("permission-message");
+                    List<String> requiredItems = itemSection.getStringList("required-items");
+                    int levels = itemSection.getInt("levels");
+                    int price = itemSection.getInt("price");
+                    List<String> actions = itemSection.getStringList("actions");
 
-                if (material != null) {
-                    interfaceItem.setType(material);
-                    interfaceItem.setDurability(durability);
-                    interfaceItem.setName(name);
-                    interfaceItem.setLore(lore);
-                    interfaceItem.setEnchantments(enchantments);
-                    interfaceItem.setPermission(permission);
-                    interfaceItem.setViewPermission(viewPermission);
-                    interfaceItem.setPermissionMessage(permissionMessage);
-                    interfaceItem.setRequiredItems(requiredItems);
-                    interfaceItem.setLevels(levels);
-                    interfaceItem.setPrice(price);
-                    interfaceItem.setActions(actions);
-                    interfaceHotbar.setItem(slot, interfaceItem);
+                    if (material != null) {
+                        interfaceItem.setType(material);
+                        interfaceItem.setDurability(durability);
+                        interfaceItem.setName(name);
+                        interfaceItem.setLore(lore);
+                        interfaceItem.setEnchantments(enchantments);
+                        interfaceItem.setPermission(permission);
+                        interfaceItem.setViewPermission(viewPermission);
+                        interfaceItem.setPermissionMessage(permissionMessage);
+                        interfaceItem.setRequiredItems(requiredItems);
+                        interfaceItem.setLevels(levels);
+                        interfaceItem.setPrice(price);
+                        interfaceItem.setActions(actions);
+                        interfaceHotbar.setItem(slot, interfaceItem);
+                    }
                 }
             }
         }

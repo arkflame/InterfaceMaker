@@ -1,23 +1,23 @@
 hotbar-settings:
-    auto-refresh: 5
-    give-on-spawn: true
-    example-item:
-      material: WOOL
-      durability: 14
-      position: 0
-      name: "<RAINBOW1>Example Item</RAINBOW>"
-      lore:
-        - ""
-      enchantments:
-        - "sharpness, 5"
-      permission: 'my.custom.permission'
-      view-permission: 'my.custom.permission'
-      permission-message: '<RAINBOW1>You have to be VIP to use this!</RAINBOW>'
-      required-items:
-        - 'wool:4, 30'
-      levels: 5
-      price: 100
-      actions:
-        - 'tell: <RAINBOW1>Thank you for using me, %player_name%!</RAINBOW>'
-        - 'open-menu: default'
-        - 'console: say Someone clicked the block!'
+  auto-refresh: 5
+  give-on-spawn: true
+example-item:
+  material: WOOL
+  durability: 14
+  position: 0
+  name: "<RAINBOW1>Example Item</RAINBOW>"
+  lore:
+    - ""
+  enchantments:
+    - "sharpness, 5"
+  permission: 'my.custom.permission'
+  view-permission: 'my.custom.permission'
+  permission-message: '<RAINBOW1>You have to be VIP to use this!</RAINBOW>'
+  required-items:
+    - 'wool:4, 30'
+  levels: 5
+  price: 100
+  actions:
+    - 'tell: <RAINBOW1>Thank you for using me, %player_name%!</RAINBOW>'
+    - 'open-menu: default'
+    - 'console: say Someone clicked the block!'

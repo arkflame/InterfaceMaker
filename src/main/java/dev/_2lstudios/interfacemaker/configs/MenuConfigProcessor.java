@@ -44,8 +44,8 @@ public class MenuConfigProcessor {
             }
         }
 
-        for (String sectionName : menuSettings.getKeys(false)) {
-            if (!sectionName.equals("open-with-item")) {
+        for (String sectionName : config.getKeys(false)) {
+            if (!sectionName.equals("menu-settings")) {
                 if (menuSettings.isConfigurationSection(sectionName)) {
                     ConfigurationSection itemSection = menuSettings.getConfigurationSection(sectionName);
                     InterfaceItem interfaceItem = new InterfaceItem();
