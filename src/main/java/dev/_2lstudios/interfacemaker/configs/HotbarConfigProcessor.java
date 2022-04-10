@@ -29,7 +29,7 @@ public class HotbarConfigProcessor {
         for (String sectionName : config.getKeys(false)) {
             if (!sectionName.equals("hotbar-settings")) {
                 if (config.isConfigurationSection(sectionName)) {
-                    ConfigurationSection itemSection = hotbarSettings.getConfigurationSection(sectionName);
+                    ConfigurationSection itemSection = config.getConfigurationSection(sectionName);
                     InterfaceItem interfaceItem = new InterfaceItem();
                     String materialName = itemSection.getString("material");
                     Material material = Material.getMaterial(materialName);

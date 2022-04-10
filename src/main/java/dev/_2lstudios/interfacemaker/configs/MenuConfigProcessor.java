@@ -47,7 +47,7 @@ public class MenuConfigProcessor {
         for (String sectionName : config.getKeys(false)) {
             if (!sectionName.equals("menu-settings")) {
                 if (config.isConfigurationSection(sectionName)) {
-                    ConfigurationSection itemSection = menuSettings.getConfigurationSection(sectionName);
+                    ConfigurationSection itemSection = config.getConfigurationSection(sectionName);
                     InterfaceItem interfaceItem = new InterfaceItem();
                     String materialName = itemSection.getString("material");
                     Material material = Material.getMaterial(materialName);
