@@ -11,6 +11,8 @@ import org.bukkit.inventory.PlayerInventory;
 
 import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
+import dev._2lstudios.interfacemaker.placeholders.Formatter;
+import dev._2lstudios.interfacemaker.player.InterfacePlayer;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
@@ -40,7 +42,14 @@ public class PlayerInteractListener implements Listener {
                 if (inventory.getOpenWithItemMaterial() == material &&
                         ((inventory.isOpenWithItemLeftClick() && isActionLeft) ||
                                 (inventory.isOpenWithItemRightClick() && isActionRight))) {
-                    inventory.build(player);
+                    InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
+
+                    if (interfacePlayer.isInteractCooling()) {
+                        Formatter.sendMessage(player, api.getConfig().getString("messages.interact-cooldown"));
+                    } else {
+                        inventory.build(player);
+                    }
+                    
                     return;
                 }
             }
@@ -54,8 +63,15 @@ public class PlayerInteractListener implements Listener {
                     event.setCancelled(true);
                 }
 
-                interfaceItem.runActions(api, player);
-                interfaceItem.onInteract(player);
+                InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
+
+                if (interfacePlayer.isInteractCooling()) {
+                    Formatter.sendMessage(player, api.getConfig().getString("messages.interact-cooldown"));
+                } else {
+                    interfacePlayer.setLastInteract();
+                    interfaceItem.runActions(api, player);
+                    interfaceItem.onInteract(player);
+                }
             }
         }
     }

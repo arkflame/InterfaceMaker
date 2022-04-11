@@ -1,2 +1,10 @@
 anti-click-spam-delay: 500
 anti-interact-spam-delay: 500
+
+messages:
+  unexistant-hotbar: "&cThe hotbar %hotbar% does not exist!"
+  offline: "&cThe player is offline!"
+  opened-hotbar-other: "&aOpened hotbar &b%hotbar%&a for &b%player%&a!"
+  reloaded: "&aThe plugin has been reloaded!"
+  click-cooldown: "&cWait before clicking again!"
+  interact-cooldown: "&cWait before interacting again!"

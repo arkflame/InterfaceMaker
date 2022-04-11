@@ -5,14 +5,38 @@ import java.util.List;
 import com.iridium.iridiumcolorapi.IridiumColorAPI;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class Formatter {
+    public static String color(String text) {
+        if (text != null) {
+            return ChatColor.translateAlternateColorCodes('&',
+                    IridiumColorAPI.process(text));
+        }
+
+        return null;
+    }
+
     public static String format(Player player, String text) {
-        return ChatColor.translateAlternateColorCodes('&',
-                IridiumColorAPI.process(PlaceholderAPI.setPlaceholders(player, text))).replace("%player_name%", player.getName()).replace("%display_name%", player.getDisplayName());
+        if (text != null) {
+            return color(PlaceholderAPI.setPlaceholders(player, text)).replace("%player_name%", player.getName())
+                    .replace("%display_name%", player.getDisplayName());
+        }
+
+        return null;
+    }
+
+    public static void sendMessage(CommandSender sender, String text) {
+        if (text != null) {
+            if (sender instanceof Player) {
+                sender.sendMessage(format((Player) sender, text));
+            } else {
+                sender.sendMessage(color(text));
+            }
+        }
     }
 
     public static List<String> format(Player player, List<String> lore) {

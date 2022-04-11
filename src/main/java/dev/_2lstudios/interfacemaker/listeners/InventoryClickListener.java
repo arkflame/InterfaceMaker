@@ -13,6 +13,8 @@ import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 import dev._2lstudios.interfacemaker.interfaces.contexts.MenuBuildContext;
+import dev._2lstudios.interfacemaker.placeholders.Formatter;
+import dev._2lstudios.interfacemaker.player.InterfacePlayer;
 
 public class InventoryClickListener implements Listener {
     private InterfaceMakerAPI api;
@@ -46,7 +48,14 @@ public class InventoryClickListener implements Listener {
                                 return;
                             }
 
-                            interfaceItem.onClick(player, clickedInventory);
+                            InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
+
+                            if (interfacePlayer.isClickCooling()) {
+                                Formatter.sendMessage(player,
+                                        api.getConfig().getString("messages.click-cooldown"));
+                            } else {
+                                interfaceItem.onClick(player, clickedInventory);
+                            }
                         }
                     }
                 } else {
@@ -67,8 +76,16 @@ public class InventoryClickListener implements Listener {
                                     event.setCancelled(true);
                                 }
 
-                                interfaceItem.runActions(api, player);
-                                interfaceItem.onClick(player, clickedInventory);
+                                InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
+
+                                if (interfacePlayer.isClickCooling()) {
+                                    Formatter.sendMessage(player,
+                                            api.getConfig().getString("messages.click-cooldown"));
+                                } else {
+                                    interfacePlayer.setLastClick();
+                                    interfaceItem.runActions(api, player);
+                                    interfaceItem.onClick(player, clickedInventory);
+                                }
                             }
                         }
                     }

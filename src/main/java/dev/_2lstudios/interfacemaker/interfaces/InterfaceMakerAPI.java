@@ -4,14 +4,30 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import dev._2lstudios.interfacemaker.InterfaceMaker;
+import dev._2lstudios.interfacemaker.player.InterfacePlayerManager;
+
 public class InterfaceMakerAPI {
+    private InterfaceMaker plugin;
+    private InterfacePlayerManager interfacePlayerManager;
+    
     private Map<String, InterfaceMenu> configuredInventories = new HashMap<>();
     private Map<String, InterfaceHotbar> configuredHotbars = new HashMap<>();
     private Map<Inventory, InterfaceMenu> openedInventories = new HashMap<>();
     private Map<Player, InterfaceHotbar> openedHotbars = new HashMap<>();
+
+    public InterfaceMakerAPI(InterfaceMaker plugin) {
+        this.plugin = plugin;
+        this.interfacePlayerManager = new InterfacePlayerManager(this);
+    }
+
+    public InterfacePlayerManager getInterfacePlayerManager() {
+        return interfacePlayerManager;
+    }
 
     public InterfaceMenu getConfiguredMenu(String name) {
         return configuredInventories.getOrDefault(name, null);
@@ -75,5 +91,9 @@ public class InterfaceMakerAPI {
 
     public void clearConfiguredInventories() {
         configuredInventories.clear();
+    }
+
+    public Configuration getConfig() {
+        return plugin.getConfig();
     }
 }

@@ -6,11 +6,13 @@ import java.util.Map.Entry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
+import dev._2lstudios.interfacemaker.placeholders.Formatter;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
 public class InterfaceMakerCommand implements CommandExecutor {
@@ -25,9 +27,11 @@ public class InterfaceMakerCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0) {
+            Configuration config = api.getConfig();
+
             if (args[0].equals("reload")) {
                 plugin.reloadFiles();
-                sender.sendMessage("The plugin has been reloaded!");
+                Formatter.sendMessage(sender, config.getString("messages.reload"));
             } else if (args[0].equals("open")) {
                 if (args.length > 3) {
                     String mode = args[1];
@@ -43,12 +47,14 @@ public class InterfaceMakerCommand implements CommandExecutor {
 
                                 if (player != null && player.isOnline()) {
                                     hotbar.build(player);
-                                    sender.sendMessage("Opened hotbar " + fileName + " for player " + playerName + "!");
+                                    Formatter.sendMessage(sender, config.getString("messages.opened-hotbar-other")
+                                            .replace("%hotbar%", fileName).replace("%player%", playerName));
                                 } else {
-                                    sender.sendMessage("The player is not online!");
+                                    Formatter.sendMessage(sender, config.getString("messages.offline"));
                                 }
                             } else {
-                                sender.sendMessage("The hotbar " + fileName + " does not exist!");
+                                Formatter.sendMessage(sender,
+                                        config.getString("messages.unexistant-hotbar").replace("%hotbar%", fileName));
                             }
                             break;
                         }

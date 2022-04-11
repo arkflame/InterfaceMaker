@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.bukkit.Server;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,6 +19,9 @@ import dev._2lstudios.interfacemaker.listeners.InventoryDragListener;
 import dev._2lstudios.interfacemaker.listeners.PlayerCommandPreProcessListener;
 import dev._2lstudios.interfacemaker.listeners.PlayerDropItemListener;
 import dev._2lstudios.interfacemaker.listeners.PlayerInteractListener;
+import dev._2lstudios.interfacemaker.listeners.PlayerJoinListener;
+import dev._2lstudios.interfacemaker.listeners.PlayerQuitListener;
+import dev._2lstudios.interfacemaker.player.InterfacePlayerManager;
 
 public class InterfaceMaker extends JavaPlugin {
     public void reloadFiles() {
@@ -56,10 +60,16 @@ public class InterfaceMaker extends JavaPlugin {
     @Override
     public void onEnable() {
         Server server = getServer();
-        InterfaceMaker.api = new InterfaceMakerAPI();
+        InterfaceMaker.api = new InterfaceMakerAPI(this);
         PluginManager pluginManager = server.getPluginManager();
 
         reloadFiles();
+
+        InterfacePlayerManager interfacePlayerManager = api.getInterfacePlayerManager();
+
+        for (Player player : server.getOnlinePlayers()) {
+            interfacePlayerManager.create(player);
+        }
 
         pluginManager.registerEvents(new InventoryClickListener(api), this);
         pluginManager.registerEvents(new InventoryCloseListener(api), this);
@@ -67,6 +77,8 @@ public class InterfaceMaker extends JavaPlugin {
         pluginManager.registerEvents(new PlayerCommandPreProcessListener(api), this);
         pluginManager.registerEvents(new PlayerDropItemListener(api), this);
         pluginManager.registerEvents(new PlayerInteractListener(api), this);
+        pluginManager.registerEvents(new PlayerJoinListener(api), this);
+        pluginManager.registerEvents(new PlayerQuitListener(api), this);
 
         getCommand("interfacemaker").setExecutor(new InterfaceMakerCommand(api, this));
     }
