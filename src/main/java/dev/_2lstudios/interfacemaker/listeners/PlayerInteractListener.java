@@ -34,7 +34,7 @@ public class PlayerInteractListener implements Listener {
         if (item != null) {
             Material material = item.getType();
 
-            for (InterfaceMenu inventory : api.getConfiguredInventoriesValues()) {
+            for (InterfaceMenu inventory : api.getConfiguredMenusValues()) {
                 Action action = event.getAction();
                 boolean isActionLeft = action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK;
                 boolean isActionRight = action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK;
@@ -49,7 +49,7 @@ public class PlayerInteractListener implements Listener {
                     } else {
                         inventory.build(player);
                     }
-                    
+
                     return;
                 }
             }
@@ -68,6 +68,30 @@ public class PlayerInteractListener implements Listener {
                 if (interfacePlayer.isInteractCooling()) {
                     Formatter.sendMessage(player, api.getConfig().getString("messages.interact-cooldown"));
                 } else {
+                    int levels = interfaceItem.getLevels();
+
+                    if (levels > 0) {
+                        int playerLevel = player.getLevel();
+
+                        if (playerLevel >= levels) {
+                            player.setLevel(playerLevel - levels);
+                        } else {
+                            return;
+                        }
+                    }
+
+                    String permission = interfaceItem.getPermission();
+
+                    if (permission != null && !player.hasPermission(permission)) {
+                        String permissionMessage = interfaceItem.getPermissionMessage();
+
+                        if (permissionMessage != null) {
+                            Formatter.sendMessage(player, permissionMessage);
+                        }
+
+                        return;
+                    }
+
                     interfacePlayer.setLastInteract();
                     interfaceItem.runActions(api, player);
                     interfaceItem.onInteract(player);

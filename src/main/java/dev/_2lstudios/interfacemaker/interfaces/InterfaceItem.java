@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.enchantments.Enchantment;
@@ -15,6 +16,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionEffectType;
 
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 
@@ -25,9 +30,12 @@ public class InterfaceItem {
     private Collection<String> actions = new HashSet<>();
     private Collection<ItemStack> requiredItems = new HashSet<>();
     private String name = "InterfaceMaker";
-    private String permission = "";
-    private String viewPermission = "";
-    private String permissionMessage = "";
+    private String permission = null;
+    private String viewPermission = null;
+    private String permissionMessage = null;
+    private String skullOwner = null;
+    private String mainPotionEffect = null;
+    private Color leatherArmorColor = null;
     private int amount = 1;
     private int levels = 0;
     private int price = 0;
@@ -46,6 +54,22 @@ public class InterfaceItem {
             itemMeta.setLore(Formatter.format(player, lore));
         }
 
+        if (skullOwner != null && itemMeta instanceof SkullMeta) {
+            ((SkullMeta) itemMeta).setOwner(skullOwner);
+        }
+
+        if (mainPotionEffect != null && itemMeta instanceof PotionMeta) {
+            PotionEffectType potionEffectType = PotionEffectType.getByName(mainPotionEffect);
+
+            if (potionEffectType != null) {
+                ((PotionMeta) itemMeta).setMainEffect(potionEffectType);
+            }
+        }
+
+        if (leatherArmorColor != null && itemMeta instanceof LeatherArmorMeta) {
+            ((LeatherArmorMeta) itemMeta).setColor(leatherArmorColor);
+        }
+
         item.setItemMeta(itemMeta);
         item.setAmount(amount);
 
@@ -54,6 +78,33 @@ public class InterfaceItem {
         }
 
         return item;
+    }
+
+    public InterfaceItem setLeatherArmorColor(Color color) {
+        this.leatherArmorColor = color;
+        return this;
+    }
+
+    public Color getLeatherArmorColor() {
+        return leatherArmorColor;
+    }
+
+    public InterfaceItem setMainPotionEffect(String potionEffect) {
+        this.mainPotionEffect = potionEffect;
+        return this;
+    }
+
+    public String getMainPotionEffect() {
+        return mainPotionEffect;
+    }
+
+    public InterfaceItem setSkullOwner(String owner) {
+        this.skullOwner = owner;
+        return this;
+    }
+
+    public String getSkullOwner() {
+        return skullOwner;
     }
 
     public InterfaceItem setName(String name) {

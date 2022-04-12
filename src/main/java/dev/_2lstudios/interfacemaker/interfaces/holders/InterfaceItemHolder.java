@@ -42,6 +42,12 @@ public class InterfaceItemHolder {
             InterfaceItem interfaceItem = entry.getValue();
 
             if (interfaceItem != null) {
+                String viewPermission = interfaceItem.getViewPermission();
+                
+                if (viewPermission != null && !player.hasPermission(viewPermission)) {
+                    continue;
+                }
+
                 ItemStack item = interfaceItem.build(player);
 
                 if (slot < inventorySize) {

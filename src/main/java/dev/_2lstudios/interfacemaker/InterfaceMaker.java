@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev._2lstudios.interfacemaker.commands.InterfaceMakerCommand;
 import dev._2lstudios.interfacemaker.configs.ConfigManager;
 import dev._2lstudios.interfacemaker.configs.HotbarConfigProcessor;
+import dev._2lstudios.interfacemaker.configs.ItemConfigProcessor;
 import dev._2lstudios.interfacemaker.configs.MenuConfigProcessor;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 import dev._2lstudios.interfacemaker.listeners.InventoryClickListener;
@@ -31,8 +32,9 @@ public class InterfaceMaker extends JavaPlugin {
         api.clearConfiguredInventories();
 
         ConfigManager configManager = new ConfigManager(this);
-        HotbarConfigProcessor hotbarConfigProcessor = new HotbarConfigProcessor(api);
-        MenuConfigProcessor menuConfigProcessor = new MenuConfigProcessor(api);
+        ItemConfigProcessor itemConfigProcessor = new ItemConfigProcessor();
+        HotbarConfigProcessor hotbarConfigProcessor = new HotbarConfigProcessor(api, itemConfigProcessor);
+        MenuConfigProcessor menuConfigProcessor = new MenuConfigProcessor(api, itemConfigProcessor);
         File hotBarsFolder = new File(getDataFolder(), "hotbars");
         File menusFolder = new File(getDataFolder(), "menus");
 

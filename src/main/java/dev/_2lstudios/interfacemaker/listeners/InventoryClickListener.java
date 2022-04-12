@@ -82,6 +82,30 @@ public class InventoryClickListener implements Listener {
                                     Formatter.sendMessage(player,
                                             api.getConfig().getString("messages.click-cooldown"));
                                 } else {
+                                    int levels = interfaceItem.getLevels();
+
+                                    if (levels > 0) {
+                                        int playerLevel = player.getLevel();
+                
+                                        if (playerLevel >= levels) {
+                                            player.setLevel(playerLevel - levels);
+                                        } else {
+                                            return;
+                                        }
+                                    }
+                
+                                    String permission = interfaceItem.getPermission();
+                
+                                    if (permission != null && !player.hasPermission(permission)) {
+                                        String permissionMessage = interfaceItem.getPermissionMessage();
+                
+                                        if (permissionMessage != null) {
+                                            Formatter.sendMessage(player, permissionMessage);
+                                        }
+                
+                                        return;
+                                    }
+
                                     interfacePlayer.setLastClick();
                                     interfaceItem.runActions(api, player);
                                     interfaceItem.onClick(player, clickedInventory);

@@ -15,9 +15,9 @@ public class InterfaceMakerAPI {
     private InterfaceMaker plugin;
     private InterfacePlayerManager interfacePlayerManager;
     
-    private Map<String, InterfaceMenu> configuredInventories = new HashMap<>();
+    private Map<String, InterfaceMenu> configuredMenus = new HashMap<>();
     private Map<String, InterfaceHotbar> configuredHotbars = new HashMap<>();
-    private Map<Inventory, InterfaceMenu> openedInventories = new HashMap<>();
+    private Map<Inventory, InterfaceMenu> openedMenus = new HashMap<>();
     private Map<Player, InterfaceHotbar> openedHotbars = new HashMap<>();
 
     public InterfaceMakerAPI(InterfaceMaker plugin) {
@@ -30,19 +30,19 @@ public class InterfaceMakerAPI {
     }
 
     public InterfaceMenu getConfiguredMenu(String name) {
-        return configuredInventories.getOrDefault(name, null);
+        return configuredMenus.getOrDefault(name, null);
     }
 
-    public Collection<InterfaceMenu> getConfiguredInventoriesValues() {
-        return configuredInventories.values();
+    public Collection<InterfaceMenu> getConfiguredMenusValues() {
+        return configuredMenus.values();
     }
 
-    public Map<String, InterfaceMenu> getConfiguredInventories() {
-        return configuredInventories;
+    public Map<String, InterfaceMenu> getConfiguredMenus() {
+        return configuredMenus;
     }
 
     public void addConfiguredMenu(String name, InterfaceMenu interfaceMenu) {
-        configuredInventories.put(name, interfaceMenu);
+        configuredMenus.put(name, interfaceMenu);
     }
 
     public InterfaceHotbar getConfiguredHotbar(String name) {
@@ -62,15 +62,15 @@ public class InterfaceMakerAPI {
     }
 
     public InterfaceMenu getOpenedMenu(Inventory inventory) {
-        return openedInventories.getOrDefault(inventory, null);
+        return openedMenus.getOrDefault(inventory, null);
     }
 
     public void setOpened(Inventory inventory, InterfaceMenu interfaceMenu) {
-        openedInventories.put(inventory, interfaceMenu);
+        openedMenus.put(inventory, interfaceMenu);
     }
 
     public void setClosed(Inventory inventory) {
-        openedInventories.remove(inventory);
+        openedMenus.remove(inventory);
     }
 
     public InterfaceHotbar getHotbar(Player player) {
@@ -90,7 +90,7 @@ public class InterfaceMakerAPI {
     }
 
     public void clearConfiguredInventories() {
-        configuredInventories.clear();
+        configuredMenus.clear();
     }
 
     public Configuration getConfig() {
