@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -68,6 +69,10 @@ public class InterfaceItem {
 
         if (leatherArmorColor != null && itemMeta instanceof LeatherArmorMeta) {
             ((LeatherArmorMeta) itemMeta).setColor(leatherArmorColor);
+        }
+
+        for (Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+            itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
         }
 
         item.setItemMeta(itemMeta);
@@ -184,14 +189,16 @@ public class InterfaceItem {
         if (this.enchantments != null) {
             for (String text : enchantments) {
                 String[] splittedText = text.split(", ");
-                String enchantmentName = splittedText[0];
+                String enchantmentName = splittedText[0].toUpperCase();
                 String enchantmentLevelString = splittedText[1];
 
                 try {
                     Enchantment enchantment = Enchantment.getByName(enchantmentName);
                     int level = Integer.parseInt(enchantmentLevelString);
 
-                    addEnchantment(enchantment, level);
+                    if (enchantment != null) {
+                        addEnchantment(enchantment, level);
+                    }
                 } catch (NumberFormatException ex) {
                     // Ignored
                 }
