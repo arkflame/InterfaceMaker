@@ -231,19 +231,29 @@ public class InterfaceItem {
     public InterfaceItem setRequiredItems(List<String> requiredItems) {
         for (String text : requiredItems) {
             String[] splittedText = text.split(", ");
-            String materialName = splittedText[0];
+            String[] splittedMaterial = splittedText[0].split(":");
+            String materialName = splittedMaterial[0].toUpperCase();
             String amountString = splittedText[1];
+            Material type = Material.getMaterial(materialName);
 
-            try {
-                Material type = Material.getMaterial(materialName);
-
-                if (type != null) {
+            if (type != null) {
+                try {
                     int amount = Integer.parseInt(amountString);
+                    short data = 0;
 
-                    this.requiredItems.add(new ItemStack(type, amount));
+                    if (splittedMaterial.length > 1) {
+                        try {
+                            data = Short.parseShort(splittedMaterial[1]);
+                        } catch (NumberFormatException ex) {
+                            // Ignored
+                        }
+                    }
+
+                    ItemStack item = new ItemStack(type, amount, data);
+                    this.requiredItems.add(item);
+                } catch (NumberFormatException ex) {
+                    // Ignored
                 }
-            } catch (NumberFormatException ex) {
-                // Ignored
             }
         }
 

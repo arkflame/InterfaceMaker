@@ -1,5 +1,7 @@
 package dev._2lstudios.interfacemaker.listeners;
 
+import java.util.Collection;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +15,7 @@ import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 import dev._2lstudios.interfacemaker.player.InterfacePlayer;
+import dev._2lstudios.interfacemaker.utils.InventoryUtils;
 import dev._2lstudios.interfacemaker.vault.VaultProvider;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
@@ -93,14 +96,27 @@ public class PlayerInteractListener implements Listener {
                         return;
                     }
 
-                    int price = interfaceItem.getPrice();
+                    Collection<ItemStack> requiredItems = interfaceItem.getRequiredItems();
 
-                    System.out.println(price);
+                    if (!requiredItems.isEmpty()) {
+                        ItemStack[] requiredItemsArray = requiredItems.toArray(new ItemStack[0]);
+                        PlayerInventory inventory = player.getInventory();
+
+                        if (!InventoryUtils.contains(inventory, requiredItemsArray)) {
+                            Formatter.sendMessage(player,
+                                    api.getConfig().getString("messages.no-items"));
+                            return;
+                        }
+
+                        InventoryUtils.remove(inventory, requiredItemsArray);
+
+                        player.updateInventory();
+                    }
+
+                    int price = interfaceItem.getPrice();
 
                     if (price > 0) {
                         VaultProvider vaultProvider = api.getVaultProvider();
-
-                        System.out.println(vaultProvider.isEconomyRegistered());
 
                         if (!vaultProvider.isEconomyRegistered()) {
                             Formatter.sendMessage(player, api.getConfig().getString("messages.no-economy"));

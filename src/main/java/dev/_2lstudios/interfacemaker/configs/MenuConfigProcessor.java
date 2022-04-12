@@ -35,7 +35,7 @@ public class MenuConfigProcessor {
 
         if (menuSettings.contains("open-with-item")) {
             ConfigurationSection openWithItem = menuSettings.getConfigurationSection("open-with-item");
-            String materialName = openWithItem.getString("material");
+            String materialName = openWithItem.getString("material").toUpperCase();
             Material material = Material.getMaterial(materialName);
             boolean leftClick = openWithItem.getBoolean("left-click");
             boolean rightClick = openWithItem.getBoolean("right-click");

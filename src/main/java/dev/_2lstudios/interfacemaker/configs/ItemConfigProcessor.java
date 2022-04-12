@@ -12,7 +12,7 @@ import dev._2lstudios.interfacemaker.interfaces.holders.InterfaceInventoryHolder
 public class ItemConfigProcessor {
     public void process(InterfaceInventoryHolder interfaceInventoryHolder, ConfigurationSection itemSection) {
         InterfaceItem interfaceItem = new InterfaceItem();
-        String materialName = itemSection.getString("material");
+        String materialName = itemSection.getString("material").toUpperCase();
         Material material = Material.getMaterial(materialName == null ? "STONE" : materialName);
         int durability = itemSection.getInt("durability");
         int positionX = Math.max(0, itemSection.getInt("position-x") - 1);

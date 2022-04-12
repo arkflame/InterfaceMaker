@@ -1,5 +1,7 @@
 package dev._2lstudios.interfacemaker.listeners;
 
+import java.util.Collection;
+
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,6 +10,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
@@ -15,6 +19,7 @@ import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 import dev._2lstudios.interfacemaker.interfaces.contexts.MenuBuildContext;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 import dev._2lstudios.interfacemaker.player.InterfacePlayer;
+import dev._2lstudios.interfacemaker.utils.InventoryUtils;
 import dev._2lstudios.interfacemaker.vault.VaultProvider;
 
 public class InventoryClickListener implements Listener {
@@ -46,7 +51,6 @@ public class InventoryClickListener implements Listener {
                         if (interfaceItem != null) {
                             if (!interfaceHotbar.allowsMovement() || !interfaceItem.allowsMovement()) {
                                 event.setCancelled(true);
-                                return;
                             }
 
                             InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
@@ -108,6 +112,23 @@ public class InventoryClickListener implements Listener {
                                         }
 
                                         return;
+                                    }
+
+                                    Collection<ItemStack> requiredItems = interfaceItem.getRequiredItems();
+
+                                    if (!requiredItems.isEmpty()) {
+                                        ItemStack[] requiredItemsArray = requiredItems.toArray(new ItemStack[0]);
+                                        PlayerInventory inventory = player.getInventory();
+
+                                        if (!InventoryUtils.contains(inventory, requiredItemsArray)) {
+                                            Formatter.sendMessage(player,
+                                                    api.getConfig().getString("messages.no-items"));
+                                            return;
+                                        }
+
+                                        InventoryUtils.remove(inventory, requiredItemsArray);
+
+                                        player.updateInventory();
                                     }
 
                                     int price = interfaceItem.getPrice();

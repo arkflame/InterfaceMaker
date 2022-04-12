@@ -5,6 +5,7 @@ main: ${mainClass}
 version: ${version}
 url: ${url}
 depend: [ "PlaceholderAPI" ]
+api-version: 1.13
 commands:
   interfacemaker:
     aliases: ["im"]
