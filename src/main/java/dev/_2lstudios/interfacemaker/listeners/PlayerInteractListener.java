@@ -80,6 +80,9 @@ public class PlayerInteractListener implements Listener {
                         if (playerLevel >= levels) {
                             player.setLevel(playerLevel - levels);
                         } else {
+                            Formatter.sendMessage(player,
+                                    api.getConfig().getString("messages.no-levels")
+                                            .replace("%levels%", String.valueOf(levels)));
                             return;
                         }
                     }
@@ -119,11 +122,13 @@ public class PlayerInteractListener implements Listener {
                         VaultProvider vaultProvider = api.getVaultProvider();
 
                         if (!vaultProvider.isEconomyRegistered()) {
-                            Formatter.sendMessage(player, api.getConfig().getString("messages.no-economy"));
+                            Formatter.sendMessage(player,
+                                    api.getConfig().getString("messages.no-economy"));
                             return;
                         } else if (!vaultProvider.getEconomy().has(player, price)) {
-                            Formatter.sendMessage(player, api.getConfig().getString("messages.no-balance")
-                                    .replace("%price%", String.valueOf(price)));
+                            Formatter.sendMessage(player,
+                                    api.getConfig().getString("messages.no-balance")
+                                            .replace("%price%", String.valueOf(price)));
                             return;
                         }
                     }
