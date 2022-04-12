@@ -13,6 +13,7 @@ import dev._2lstudios.interfacemaker.interfaces.InterfaceHotbar;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 import dev._2lstudios.interfacemaker.player.InterfacePlayer;
+import dev._2lstudios.interfacemaker.vault.VaultProvider;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
@@ -90,6 +91,25 @@ public class PlayerInteractListener implements Listener {
                         }
 
                         return;
+                    }
+
+                    int price = interfaceItem.getPrice();
+
+                    System.out.println(price);
+
+                    if (price > 0) {
+                        VaultProvider vaultProvider = api.getVaultProvider();
+
+                        System.out.println(vaultProvider.isEconomyRegistered());
+
+                        if (!vaultProvider.isEconomyRegistered()) {
+                            Formatter.sendMessage(player, api.getConfig().getString("messages.no-economy"));
+                            return;
+                        } else if (!vaultProvider.getEconomy().has(player, price)) {
+                            Formatter.sendMessage(player, api.getConfig().getString("messages.no-balance")
+                                    .replace("%price%", String.valueOf(price)));
+                            return;
+                        }
                     }
 
                     interfacePlayer.setLastInteract();

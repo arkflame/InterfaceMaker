@@ -15,6 +15,7 @@ import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 import dev._2lstudios.interfacemaker.interfaces.contexts.MenuBuildContext;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 import dev._2lstudios.interfacemaker.player.InterfacePlayer;
+import dev._2lstudios.interfacemaker.vault.VaultProvider;
 
 public class InventoryClickListener implements Listener {
     private InterfaceMakerAPI api;
@@ -86,24 +87,44 @@ public class InventoryClickListener implements Listener {
 
                                     if (levels > 0) {
                                         int playerLevel = player.getLevel();
-                
+
                                         if (playerLevel >= levels) {
                                             player.setLevel(playerLevel - levels);
                                         } else {
+                                            Formatter.sendMessage(player,
+                                                    api.getConfig().getString("messages.no-levels")
+                                                            .replace("%levels%", String.valueOf(levels)));
                                             return;
                                         }
                                     }
-                
+
                                     String permission = interfaceItem.getPermission();
-                
+
                                     if (permission != null && !player.hasPermission(permission)) {
                                         String permissionMessage = interfaceItem.getPermissionMessage();
-                
+
                                         if (permissionMessage != null) {
                                             Formatter.sendMessage(player, permissionMessage);
                                         }
-                
+
                                         return;
+                                    }
+
+                                    int price = interfaceItem.getPrice();
+
+                                    if (price > 0) {
+                                        VaultProvider vaultProvider = api.getVaultProvider();
+
+                                        if (!vaultProvider.isEconomyRegistered()) {
+                                            Formatter.sendMessage(player,
+                                                    api.getConfig().getString("messages.no-economy"));
+                                            return;
+                                        } else if (!vaultProvider.getEconomy().has(player, price)) {
+                                            Formatter.sendMessage(player,
+                                                    api.getConfig().getString("messages.no-balance")
+                                                            .replace("%price%", String.valueOf(price)));
+                                            return;
+                                        }
                                     }
 
                                     interfacePlayer.setLastClick();

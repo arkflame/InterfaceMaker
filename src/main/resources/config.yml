@@ -2,6 +2,9 @@ anti-click-spam-delay: 500
 anti-interact-spam-delay: 500
 
 messages:
+  no-levels: "&cNot enough levels. You need %levels% levels to use this item!"
+  no-balance: "&cNot enough money. You need $%price% to use this item!"
+  no-economy: "&cThis item cannot be used because vault is not installed!"
   list-usage: "&c/%label% list <menus/hotbars>"
   list-invalid-argument: "&cInvalid argument: %argument%\nAvailable: hotbars, menus"
   hotbar-list-header: "&aAvailable hotbars:"

@@ -10,10 +10,12 @@ import org.bukkit.inventory.Inventory;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.player.InterfacePlayerManager;
+import dev._2lstudios.interfacemaker.vault.VaultProvider;
 
 public class InterfaceMakerAPI {
     private InterfaceMaker plugin;
     private InterfacePlayerManager interfacePlayerManager;
+    private VaultProvider vaultProvider;
     
     private Map<String, InterfaceMenu> configuredMenus = new HashMap<>();
     private Map<String, InterfaceHotbar> configuredHotbars = new HashMap<>();
@@ -23,6 +25,7 @@ public class InterfaceMakerAPI {
     public InterfaceMakerAPI(InterfaceMaker plugin) {
         this.plugin = plugin;
         this.interfacePlayerManager = new InterfacePlayerManager(this);
+        this.vaultProvider = new VaultProvider(plugin.getServer());
     }
 
     public InterfacePlayerManager getInterfacePlayerManager() {
@@ -95,5 +98,9 @@ public class InterfaceMakerAPI {
 
     public Configuration getConfig() {
         return plugin.getConfig();
+    }
+
+    public VaultProvider getVaultProvider() {
+        return vaultProvider;
     }
 }

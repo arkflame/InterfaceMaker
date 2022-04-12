@@ -49,7 +49,11 @@ public class ItemConfigProcessor {
             interfaceItem.setActions(actions);
             interfaceItem.setSkullOwner(skullOwner);
             interfaceItem.setMainPotionEffect(potionEffect);
-            interfaceItem.setLeatherArmorColor(Color.fromRGB(leatherArmorColor));
+
+            if (leatherArmorColor > 0) {
+                interfaceItem.setLeatherArmorColor(Color.fromRGB(leatherArmorColor));
+            }
+
             interfaceInventoryHolder.setItem(slot, interfaceItem);
         }
     }
