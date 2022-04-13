@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
+import dev._2lstudios.interfacemaker.utils.ProxyUtils;
 
 public class InterfaceItem {
     private Material type = Material.DIRT;
@@ -350,18 +351,20 @@ public class InterfaceItem {
     }
 
     public void runActions(InterfaceMakerAPI api, Player player) {
-        for (String action : getActions()) {
-            String[] splittedAction = action.split(" ");
+        for (String rawAction : getActions()) {
+            String[] parts = rawAction.split(":");
 
-            if (splittedAction.length > 0) {
-                switch (splittedAction[0].toLowerCase()) {
-                    case "tell:": {
-                        player.sendMessage(Formatter.format(player, action.replace("tell: ", "")));
+            if (parts.length > 0) {
+                String action = parts[0].trim().toLowerCase();
+                String arg = parts[1].trim();
 
+                switch (action) {
+                    case "tell": {
+                        player.sendMessage(Formatter.format(player, arg));
                         break;
                     }
-                    case "open-menu:": {
-                        InterfaceMenu inventory = api.getConfiguredMenu(action.replace("open-menu: ", ""));
+                    case "open-menu": {
+                        InterfaceMenu inventory = api.getConfiguredMenu(arg);
 
                         if (inventory != null) {
                             inventory.build(player);
@@ -369,8 +372,8 @@ public class InterfaceItem {
 
                         break;
                     }
-                    case "give-hotbar:": {
-                        InterfaceHotbar hotbar = api.getConfiguredHotbar(action.replace("give-hotbar: ", ""));
+                    case "give-hotbar": {
+                        InterfaceHotbar hotbar = api.getConfiguredHotbar(arg);
 
                         if (hotbar != null) {
                             hotbar.build(player);
@@ -378,18 +381,18 @@ public class InterfaceItem {
 
                         break;
                     }
-                    case "console:": {
+                    case "console": {
                         Server server = player.getServer();
-
-                        server.dispatchCommand(server.getConsoleSender(), action.replace("console: ", ""));
-
+                        server.dispatchCommand(server.getConsoleSender(), arg);
                         break;
                     }
-                    case "player:": {
+                    case "player": {
                         Server server = player.getServer();
-
-                        server.dispatchCommand(player, action.replace("player: ", ""));
-
+                        server.dispatchCommand(player, arg);
+                        break;
+                    }
+                    case "server": {
+                        ProxyUtils.sendToServer(api.getPlugin(), player, arg);
                         break;
                     }
                 }

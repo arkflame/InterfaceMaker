@@ -81,6 +81,8 @@ public class InterfaceMaker extends JavaPlugin {
         pluginManager.registerEvents(new PlayerInteractListener(api), this);
         pluginManager.registerEvents(new PlayerJoinListener(api), this);
         pluginManager.registerEvents(new PlayerQuitListener(api), this);
+        
+        server.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         getCommand("interfacemaker").setExecutor(new InterfaceMakerCommand(api, this));
     }

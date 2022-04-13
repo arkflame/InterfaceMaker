@@ -7,6 +7,7 @@ import java.util.Map;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.Plugin;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.player.InterfacePlayerManager;
@@ -102,5 +103,9 @@ public class InterfaceMakerAPI {
 
     public VaultProvider getVaultProvider() {
         return vaultProvider;
+    }
+
+    public Plugin getPlugin() {
+        return this.plugin;
     }
 }
