@@ -87,7 +87,7 @@ buyable-item:
     - "&6&lCLICK TO BUY"
   price: 100
   actions:
-   - 'console: give %player_name% minecraft:emerald 1'
+   - 'console: give {player} minecraft:emerald 1'
 
 level-item:
   material: ENCHANTED_BOOK
@@ -107,7 +107,7 @@ level-item:
     - "&6&lCLICK TO ENCHANT"
   levels: 5
   actions:
-    - 'console: enchant %player_name% minecraft:sharpness'
+    - 'console: enchant {player} minecraft:sharpness'
 
 required-items:
   material: DIAMOND_SWORD
@@ -129,7 +129,7 @@ required-items:
     - 'diamond, 2'
     - 'stick, 1'
   actions:
-    - 'console: give %player_name% minecraft:diamond_sword'
+    - 'console: give {player} minecraft:diamond_sword'
 
 permission-items:
   material: BARRIER

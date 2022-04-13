@@ -383,7 +383,7 @@ public class InterfaceItem {
                     }
                     case "console": {
                         Server server = player.getServer();
-                        server.dispatchCommand(server.getConsoleSender(), arg);
+                        server.dispatchCommand(server.getConsoleSender(), arg.replace("{player}", player.getName()));
                         break;
                     }
                     case "player": {
