@@ -77,6 +77,8 @@ public class InterfaceMenu extends InterfaceInventoryHolder {
         }
 
         api.setOpened(inventory, this);
+        api.runActions(player, this.getOpenActions());
+        
         return this;
     }
 

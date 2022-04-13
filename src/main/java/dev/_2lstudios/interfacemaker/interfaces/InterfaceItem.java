@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -23,8 +22,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
-import dev._2lstudios.interfacemaker.utils.ProxyUtils;
-
 public class InterfaceItem {
     private Material type = Material.DIRT;
     private Map<Enchantment, Integer> enchantments = new HashMap<>();
@@ -351,53 +348,7 @@ public class InterfaceItem {
     }
 
     public void runActions(InterfaceMakerAPI api, Player player) {
-        for (String rawAction : getActions()) {
-            String[] parts = rawAction.split(":");
-
-            if (parts.length > 0) {
-                String action = parts[0].trim().toLowerCase();
-                String arg = parts[1].trim();
-
-                switch (action) {
-                    case "tell": {
-                        player.sendMessage(Formatter.format(player, arg));
-                        break;
-                    }
-                    case "open-menu": {
-                        InterfaceMenu inventory = api.getConfiguredMenu(arg);
-
-                        if (inventory != null) {
-                            inventory.build(player);
-                        }
-
-                        break;
-                    }
-                    case "give-hotbar": {
-                        InterfaceHotbar hotbar = api.getConfiguredHotbar(arg);
-
-                        if (hotbar != null) {
-                            hotbar.build(player);
-                        }
-
-                        break;
-                    }
-                    case "console": {
-                        Server server = player.getServer();
-                        server.dispatchCommand(server.getConsoleSender(), arg.replace("{player}", player.getName()));
-                        break;
-                    }
-                    case "player": {
-                        Server server = player.getServer();
-                        server.dispatchCommand(player, arg);
-                        break;
-                    }
-                    case "server": {
-                        ProxyUtils.sendToServer(api.getPlugin(), player, arg);
-                        break;
-                    }
-                }
-            }
-        }
+        api.runActions(player, this.getActions());
     }
 
     public void onClick(Player player, Inventory clickedInventory) {

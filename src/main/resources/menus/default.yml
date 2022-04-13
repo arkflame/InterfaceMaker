@@ -6,6 +6,7 @@ menu-settings:
   auto-refresh: 5
   open-actions:
     - 'tell: <RAINBOW1>InterfaceMaker is here for a revolution!</RAINBOW>'
+    - 'sound: NOTE_PLING'
   open-with-item:
     material: compass
     left-click: false

@@ -4,13 +4,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Server;
+import org.bukkit.Sound;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.Plugin;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
+import dev._2lstudios.interfacemaker.placeholders.Formatter;
 import dev._2lstudios.interfacemaker.player.InterfacePlayerManager;
+import dev._2lstudios.interfacemaker.utils.ProxyUtils;
 import dev._2lstudios.interfacemaker.vault.VaultProvider;
 
 public class InterfaceMakerAPI {
@@ -105,7 +108,57 @@ public class InterfaceMakerAPI {
         return vaultProvider;
     }
 
-    public Plugin getPlugin() {
-        return this.plugin;
+    public void runActions(Player player, Collection<String> actions) {
+        for (String rawAction : actions) {
+            String[] parts = rawAction.split(":");
+
+            if (parts.length > 0) {
+                String action = parts[0].trim().toLowerCase();
+                String arg = parts[1].trim();
+
+                switch (action) {
+                    case "tell": {
+                        player.sendMessage(Formatter.format(player, arg));
+                        break;
+                    }
+                    case "open-menu": {
+                        InterfaceMenu inventory = this.getConfiguredMenu(arg);
+
+                        if (inventory != null) {
+                            inventory.build(player);
+                        }
+
+                        break;
+                    }
+                    case "give-hotbar": {
+                        InterfaceHotbar hotbar = this.getConfiguredHotbar(arg);
+
+                        if (hotbar != null) {
+                            hotbar.build(player);
+                        }
+
+                        break;
+                    }
+                    case "console": {
+                        Server server = player.getServer();
+                        server.dispatchCommand(server.getConsoleSender(), arg.replace("{player}", player.getName()));
+                        break;
+                    }
+                    case "player": {
+                        Server server = player.getServer();
+                        server.dispatchCommand(player, arg);
+                        break;
+                    }
+                    case "server": {
+                        ProxyUtils.sendToServer(this.plugin, player, arg);
+                        break;
+                    }
+                    case "sound": {
+                        player.playSound(player.getLocation(), Sound.valueOf(arg.toUpperCase()), 1, 1);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
