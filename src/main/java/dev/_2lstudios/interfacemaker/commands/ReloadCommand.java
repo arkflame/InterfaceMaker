@@ -19,8 +19,17 @@ public class ReloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        plugin.reloadFiles();
-        Formatter.sendMessage(sender, config.getString("messages.reload"));
+        String permission = "interfacemaker.reload";
+
+        if (!sender.hasPermission(permission)) {
+            Formatter.sendMessage(sender, 
+                config.getString("messages.no-permission")
+                    .replace("%permission%", permission)
+            );
+        } else {
+            plugin.reloadFiles();
+            Formatter.sendMessage(sender, config.getString("messages.reload"));
+        }
         
         return true;
     }

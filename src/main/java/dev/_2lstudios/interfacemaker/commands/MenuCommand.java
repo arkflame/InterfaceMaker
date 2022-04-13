@@ -24,46 +24,55 @@ public class MenuCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length > 2) {
-            String fileName = args[1];
-            String playerName = args[2];
-            InterfaceMenu inventory = api.getConfiguredMenu(fileName);
-
-            if (inventory != null) {
-                Player player = plugin.getServer().getPlayer(playerName);
-
-                if (player != null && player.isOnline()) {
-                    inventory.build(player);
-                    Formatter.sendMessage(sender, config.getString("messages.opened-menu-other")
-                            .replace("%menu%", fileName).replace("%player%", playerName));
-                } else {
-                    Formatter.sendMessage(sender, config.getString("messages.offline"));
-                }
-            } else {
-                Formatter.sendMessage(sender,
-                        config.getString("messages.unexistant-menu").replace("%menu%", fileName));
-            }
-        } else if (args.length > 1) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                String fileName = args[1];
-                InterfaceMenu inventory = api.getConfiguredMenu(fileName);
-
-                if (inventory != null) {
-                    inventory.build(player);
-                    Formatter.sendMessage(sender, config.getString("messages.opened-menu")
-                            .replace("%menu%", fileName));
-                } else {
-                    Formatter.sendMessage(sender,
-                        config.getString("messages.unexistant-menu").replace("%menu%", fileName));
-                }
-            } else {
-                Formatter.sendMessage(sender,
-                        config.getString("messages.no-console"));
-            }
-        } else {
+        if (args.length <= 1) {
             Formatter.sendMessage(sender,
-            config.getString("messages.menu-usage").replace("%label%", label));
+                    config.getString("messages.menu-usage").replace("%label%", label));
+        } else {
+            String menuName = args[1];
+            InterfaceMenu menu = api.getConfiguredMenu(menuName);
+
+            if (menu == null) {
+                Formatter.sendMessage(sender,
+                        config.getString("messages.unexistant-menu").replace("%menu%", menuName));
+            } else {
+                Player target = null;
+
+                if (args.length <= 2 && !(sender instanceof Player)) {
+                    Formatter.sendMessage(sender,
+                            config.getString("messages.no-console"));
+                } else {
+                    if (args.length > 2) {
+                        target = plugin.getServer().getPlayerExact(args[2]);
+                    } else {
+                        target = (Player) sender;
+                    }
+
+                    if (target == null || !target.isOnline()) {
+                        Formatter.sendMessage(sender, config.getString("messages.offline"));
+                    } else {
+                        String openPermission = "interfacemaker.menu." + menuName;
+                        String otherPermission = "interfacemaker.open-others";
+
+                        if (target != sender && !sender.hasPermission(otherPermission)) {
+                            Formatter.sendMessage(sender, config.getString("messages.no-permission-menu-others")
+                                    .replace("%menu%", menuName).replace("%permission%", otherPermission));
+                        } else if (!sender.hasPermission(openPermission)) {
+                            Formatter.sendMessage(sender, config.getString("messages.no-permission-menu")
+                                    .replace("%menu%", menuName).replace("%permission%", openPermission));
+                        } else {
+                            menu.build(target);
+
+                            if (target == sender) {
+                                Formatter.sendMessage(sender, config.getString("messages.opened-menu")
+                                        .replace("%menu%", menuName));
+                            } else {
+                                Formatter.sendMessage(sender, config.getString("messages.opened-menu-other")
+                                        .replace("%menu%", menuName).replace("%player%", target.getName()));
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return true;

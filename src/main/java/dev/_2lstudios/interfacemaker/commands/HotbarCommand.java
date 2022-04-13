@@ -24,46 +24,55 @@ public class HotbarCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length > 2) {
-            String fileName = args[1];
-            String playerName = args[2];
-            InterfaceHotbar hotbar = api.getConfiguredHotbar(fileName);
-
-            if (hotbar != null) {
-                Player player = plugin.getServer().getPlayer(playerName);
-
-                if (player != null && player.isOnline()) {
-                    hotbar.build(player);
-                    Formatter.sendMessage(sender, config.getString("messages.opened-hotbar-other")
-                            .replace("%hotbar%", fileName).replace("%player%", playerName));
-                } else {
-                    Formatter.sendMessage(sender, config.getString("messages.offline"));
-                }
-            } else {
-                Formatter.sendMessage(sender,
-                        config.getString("messages.unexistant-hotbar").replace("%hotbar%", fileName));
-            }
-        } else if (args.length > 1) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                String fileName = args[1];
-                InterfaceHotbar hotbar = api.getConfiguredHotbar(fileName);
-
-                if (hotbar != null) {
-                    hotbar.build(player);
-                    Formatter.sendMessage(sender, config.getString("messages.opened-hotbar")
-                            .replace("%hotbar%", fileName));
-                } else {
-                    Formatter.sendMessage(sender,
-                            config.getString("messages.unexistant-hotbar").replace("%hotbar%", fileName));
-                }
-            } else {
-                Formatter.sendMessage(sender,
-                        config.getString("messages.no-console"));
-            }
-        } else {
+        if (args.length <= 1) {
             Formatter.sendMessage(sender,
-                    config.getString("messages.hotbar-usage").replace("%label%", label));
+                    config.getString("messages.menu-usage").replace("%label%", label));
+        } else {
+            String hotbarName = args[1];
+            InterfaceHotbar hotbar = api.getConfiguredHotbar(hotbarName);
+
+            if (hotbar == null) {
+                Formatter.sendMessage(sender,
+                        config.getString("messages.unexistant-hotbar").replace("%hotbar%", hotbarName));
+            } else {
+                Player target = null;
+
+                if (args.length <= 2 && !(sender instanceof Player)) {
+                    Formatter.sendMessage(sender,
+                            config.getString("messages.no-console"));
+                } else {
+                    if (args.length > 2) {
+                        target = plugin.getServer().getPlayerExact(args[2]);
+                    } else {
+                        target = (Player) sender;
+                    }
+
+                    if (target == null || !target.isOnline()) {
+                        Formatter.sendMessage(sender, config.getString("messages.offline"));
+                    } else {
+                        String openPermission = "interfacemaker.hotbar." + hotbarName;
+                        String otherPermission = "interfacemaker.open-others";
+
+                        if (target != sender && !sender.hasPermission(otherPermission)) {
+                            Formatter.sendMessage(sender, config.getString("messages.no-permission-hotbar-others")
+                                    .replace("%hotbar%", hotbarName).replace("%permission%", otherPermission));
+                        } else if (!sender.hasPermission(openPermission)) {
+                            Formatter.sendMessage(sender, config.getString("messages.no-permission-hotbar")
+                                    .replace("%hotbar%", hotbarName).replace("%permission%", openPermission));
+                        } else {
+                            hotbar.build(target);
+
+                            if (target == sender) {
+                                Formatter.sendMessage(sender, config.getString("messages.opened-hotbar")
+                                        .replace("%hotbar%", hotbarName));
+                            } else {
+                                Formatter.sendMessage(sender, config.getString("messages.opened-hotbar-other")
+                                        .replace("%hotbar%", hotbarName).replace("%player%", target.getName()));
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return true;

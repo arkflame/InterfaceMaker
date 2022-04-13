@@ -2,6 +2,11 @@ anti-click-spam-delay: 500
 anti-interact-spam-delay: 500
 
 messages:
+  no-permission-menu-others: "&cNo permission to open menus for others &7(&c%permission%&7)"
+  no-permission-hotbar-others: "&cNo permission to open hotbars for others &7(&c%permission%&7)"
+  no-permission-menu: "&cNo permission to use menu %menu% &7(&c%permission%&7)"
+  no-permission-hotbar: "&cNo permission to use hotbar %hotbar% &7(&c%permission%&7)"
+  no-permission: "&cYou don't have permissions to run this command &7(&c%permission%&7)"
   no-items: "&cYou don't have the items required to use this!"
   no-levels: "&cNot enough levels. You need %levels% levels to use this!"
   no-balance: "&cNot enough money. You need $%price% to use this!"
