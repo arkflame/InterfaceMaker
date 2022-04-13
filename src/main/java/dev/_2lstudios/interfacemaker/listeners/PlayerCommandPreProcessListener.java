@@ -17,10 +17,10 @@ public class PlayerCommandPreProcessListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
-        String message = event.getMessage();
+        String command = event.getMessage().split("/")[1].split(" ")[0].toLowerCase();
 
         for (InterfaceMenu inventory : api.getConfiguredMenusValues()) {
-            if (inventory.getCommands().contains(message)) {
+            if (inventory.getCommands().contains(command)) {
                 Player player = event.getPlayer();
 
                 inventory.build(player);
