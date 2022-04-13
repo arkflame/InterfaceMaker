@@ -48,7 +48,8 @@ public class HotbarCommand implements CommandExecutor {
                     }
 
                     if (target == null || !target.isOnline()) {
-                        Formatter.sendMessage(sender, config.getString("messages.offline"));
+                        Formatter.sendMessage(sender,
+                                config.getString("messages.offline").replace("%player%", args[2]));
                     } else {
                         String openPermission = "interfacemaker.hotbar." + hotbarName;
                         String otherPermission = "interfacemaker.open-others";

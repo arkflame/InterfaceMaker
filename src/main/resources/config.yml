@@ -29,7 +29,7 @@ messages:
   no-subcommand: "&cNo subcommand found: %argument%\nPossible commands: reload, menu, hotbar, list"
   interfacemaker-usage: "&cInterfaceMaker by LinsaFTW\nPossible commands: reload, menu, hotbar, list"
   unexistant-hotbar: "&cThe hotbar %hotbar% does not exist!"
-  offline: "&cThe player is offline!"
+  offline: "&cThe player '%player%' is offline!"
   opened-hotbar-other: "&aOpened hotbar &b%hotbar%&a for &b%player%&a!"
   reload: "&aThe plugin has been reloaded!"
   click-cooldown: "&cWait before clicking again!"
