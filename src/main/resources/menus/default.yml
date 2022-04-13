@@ -1,6 +1,6 @@
 menu-settings:
   name: '<RAINBOW1>InterfaceMaker</RAINBOW>'
-  rows: 3
+  rows: 6
   commands:
     - examplemenu
   auto-refresh: 5
@@ -10,27 +10,192 @@ menu-settings:
     material: compass
     left-click: false
     right-click: true
-example-item:
-  material: WOOL
-  durability: 14
+
+# Example actions items:
+tell-item:
+  material: BOOK
   position-x: 2
   position-y: 2
-  name: "<RAINBOW1>Example Item</RAINBOW>"
+  name: "&8[&3Tell&8] &aA nice message"
   lore:
-    - "<SOLID:FF0080>This is a hex lore"
-    - "<RAINBOW1>Looks pretty, right?</RAINBOW>"
-    - "<GRADIENT:2C08BA>And this looks cool</GRADIENT:028A97>"
-  enchantments:
-    - "sharpness, 5"
-  keep-open: true
-  permission: 'my.custom.permission'
-  view-permission: 'my.custom.permission'
-  permission-message: '<RAINBOW1>You have to be VIP to use this!</RAINBOW>'
-  required-items:
-    - 'wool:4, 30'
-  levels: 5
+    - " "
+    - "&7This item will show the player"
+    - "&7a customizable message. This is"
+    - "&7possible thanks to the &3tell action"
+    - " "
+    - "&6&lCLICK TO USE"
+  actions:
+   - "tell: <RAINBOW1>Thank you for clicking me, %player_name%!</RAINBOW>"
+
+player-command-item:
+  material: STICK
+  position-x: 4
+  position-y: 2
+  name: "&8[&3Player&8] &aSay hello"
+  lore:
+    - " "
+    - "&7Items can also execute commands"
+    - "&7by the player when clicked."
+    - " "
+    - "&6&lCLICK TO USE"
+  actions:
+   - "player: tell hello world!"
+
+console-command-item:
+  material: BLAZE_ROD
+  position-x: 6
+  position-y: 2
+  name: "&8[&3Console&8] &aBroadcast hello"
+  lore:
+    - " "
+    - "&7Items can also execute commands"
+    - "&7by the &cCONSOLE &7when clicked."
+    - " "
+    - "&6&lCLICK TO USE"
+  actions:
+   - "console: say hello world!"
+
+server-item:
+  material: REDSTONE
+  position-x: 8
+  position-y: 2
+  name: "&8[&3Server&8] &aGo to hub"
+  lore:
+    - " "
+    - "&7Items can also be sent to BungeeCord"
+    - "&7or Velocity servers thanks to the"
+    - "&3server &7action."
+    - " "
+    - "&6&lCLICK TO USE"
+  actions:
+   - "server: lobby"
+
+# Example conditional items:
+buyable-item:
+  material: EMERALD
+  position-x: 2
+  position-y: 4
+  name: "&8[&9&lBUY&8] &eEmerald &cx1"
+  lore:
+    - " "
+    - "&7Purchasable items can be created."
+    - "&7Item will not activate unless you have"
+    - "&7the necessary amount. &cVAULT &7is required"
+    - " "
+    - "&7Price: &3100$"
+    - " "
+    - "&6&lCLICK TO BUY"
   price: 100
   actions:
-    - 'tell: <RAINBOW1>Thank you for clicking me, %player_name%!</RAINBOW>'
-    - 'console: say Seems someone touched an item...'
+   - 'console: give %player_name% minecraft:emerald 1'
+
+level-item:
+  material: ENCHANTED_BOOK
+  position-x: 4
+  position-y: 4
+  name: "&8[&d&lEnchant&8] &eSharpness &cIII"
+  lore:
+    - " "
+    - "&7You can create items that will"
+    - "&7be activated by having certain"
+    - "&7experience levels. Using the"
+    - "&7item said XP requirement will"
+    - "&7be removed from the player."
+    - " "
+    - "&7Required levels: &b5"
+    - " "
+    - "&6&lCLICK TO ENCHANT"
+  levels: 5
+  actions:
+    - 'console: enchant %player_name% minecraft:sharpness'
+
+required-items:
+  material: DIAMOND_SWORD
+  position-x: 6
+  position-y: 4
+  name: "&8[&2&lFORK&8] &eDiamond Sword &cx1"
+  lore:
+    - " "
+    - "&7You can also create items that"
+    - "&7require other items in the player's"
+    - "&7inventory to be used."
+    - " "
+    - "&7Required items:"
+    - "&8- &cx2 &eDiamond"
+    - "&8- &cx1 &eStick"
+    - " "
+    - "&6&lCLICK TO FORK"
+  required-items:
+    - 'diamond, 2'
+    - 'stick, 1'
+  actions:
+    - 'console: give %player_name% minecraft:diamond_sword'
+
+permission-items:
+  material: BARRIER
+  position-x: 8
+  position-y: 4
+  name: "&8[&4&lVIP&8] &eTeleport to spawn"
+  lore:
+    - " "
+    - "&7Lastly, you can create items"
+    - "&7that require the player to have"
+    - "&7a specific permission to use."
+    - " "
+    - "&7Required permission: &cvip.spawn"
+    - " "
+    - "&6&lCLICK TO USE"
+  permission: "vip.spawn"
+  permission-message: "<RAINBOW1>Oh no no, this item isn' for you.</RAINBOW>"
+  actions:
     - 'player: spawn'
+
+# Other examples
+multiple-commands:
+  material: NETHER_STAR
+  position-x: 4
+  position-y: 6
+  name: "&aMultiple commands!"
+  lore:
+    - " "
+    - "&7Why settle for a single command"
+    - "&7when it can be two? or three, or"
+    - "&7four or... who knows."
+    - " "
+  actions:
+    - 'player: tell who is crazy?'
+    - 'server: you are crazy!'
+    - 'player: yes, i am.'
+  keep-open: true
+
+only-visible-if-permission:
+  material: EGG
+  position-x: 5
+  position-y: 6
+  name: "<RAINBOW1>Super Secret Item</RAINBOW>"
+  lore:
+    - " "
+    - "<SOLID:FF0080>You have discovered the secret item!"
+    - "<GRADIENT:2C08BA>As the name says, this item can only</GRADIENT:028A97>"
+    - "<GRADIENT:2C08BA>be seen if you have special permission.</GRADIENT:028A97>"
+    - " "
+    - "&7Even this item is so special that"
+    - "&7it is enchanted. Cool, uh?"
+    - " "
+  view-permission: "your.custom.permission"
+  enchantments:
+    - "luck, 1"
+  keep-open: true
+
+custom-durability:
+  material: WOOL
+  durability: 14
+  position-x: 6
+  position-y: 6
+  name: "&eCustom Durability"
+  lore:
+    - " "
+    - "&7Items can have durability or custom data."
+    - "&7This allows you to change the color of some"
+    - "&7items, such as wool or dye."
+  keep-open: true

@@ -1,23 +1,51 @@
 hotbar-settings:
   auto-refresh: 5
   give-on-spawn: true
-example-item:
-  material: WOOL
-  durability: 14
-  position: 0
-  name: "<RAINBOW1>Example Item</RAINBOW>"
+
+example-menu:
+  material: NETHER_STAR
+  position-x: 2
+  name: "&8&l» &6&lExample Menu &8&l«"
   lore:
-    - ""
-  enchantments:
-    - "sharpness, 5"
-  permission: 'my.custom.permission'
-  view-permission: 'my.custom.permission'
-  permission-message: '<RAINBOW1>You have to be VIP to use this!</RAINBOW>'
-  required-items:
-    - 'wool:4, 30'
-  levels: 5
-  price: 100
+    - "&7Opens the example &bInterfaceMaker &7menu."
   actions:
-    - 'tell: <RAINBOW1>Thank you for using me, %player_name%!</RAINBOW>'
     - 'open-menu: default'
-    - 'console: say Someone clicked the block!'
+
+permission-item:
+  material: BLAZE_ROD
+  position-x: 3
+  name: "&8&l» &a&lToggle Flight &8&l«"
+  permission: "item.fly"
+  permission-message: "&aYou have to be VIP to use this!"
+  actions:
+    - 'player: fly'
+
+secret-item:
+  material: EMERALD
+  position-x: 5
+  name: "<RAINBOW1>Secret Item</RAINBOW>"
+  view-permission: 'my.custom.permission'
+  enchantments:
+    - "luck, 1"
+  actions:
+    - 'tell: <RAINBOW1>You has clicked the SECRET item</RAINBOW>'
+
+virtual-crafting-table:
+  material: WORKBENCH
+  position-x: 7
+  name: "&8&l» &b&lOpen Crafting Table &8&l«"
+  price: 100
+  lore:
+    - "&7Price: &b100$"
+  actions:
+    - 'player: workbench'
+
+virtual-anvil:
+  material: ANVIL
+  position-x: 8
+  name: "&8&l» &b&lOpen Anvil &8&l«"
+  price: 100
+  lore:
+    - "&7Price: &b100$"
+  actions:
+    - 'player: anvil'
