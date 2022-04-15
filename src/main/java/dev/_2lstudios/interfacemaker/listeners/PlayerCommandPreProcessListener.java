@@ -1,11 +1,14 @@
 package dev._2lstudios.interfacemaker.listeners;
 
+import java.util.Map.Entry;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
+import dev._2lstudios.interfacemaker.placeholders.Formatter;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 
 public class PlayerCommandPreProcessListener implements Listener {
@@ -19,12 +22,23 @@ public class PlayerCommandPreProcessListener implements Listener {
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
         String command = event.getMessage().split("/")[1].split(" ")[0].toLowerCase();
 
-        for (InterfaceMenu inventory : api.getConfiguredMenusValues()) {
-            if (inventory.getCommands().contains(command)) {
-                Player player = event.getPlayer();
+        for (Entry<String, InterfaceMenu> entry : api.getConfiguredMenus().entrySet()) {
+            InterfaceMenu inventory = entry.getValue();
 
-                inventory.build(player);
-                event.setCancelled(true);
+            if (inventory.getCommands().contains(command)) {
+                String menuName = entry.getKey();
+                Player player = event.getPlayer();
+                
+                String openPermission = "interfacemaker.menu." +  menuName;
+
+                if (player.hasPermission(openPermission)) {
+                    inventory.build(player);
+                    event.setCancelled(true);
+                } else {
+                    Formatter.sendMessage(player, api.getConfig().getString("messages.no-permission-menu")
+                            .replace("%menu%", menuName).replace("%permission%", openPermission));
+                }
+                
                 break;
             }
         }
