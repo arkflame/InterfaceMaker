@@ -11,6 +11,12 @@ menu-settings:
     material: compass
     left-click: false
     right-click: true
+  style:
+    fill:
+      material: STAINED_GLASS_PANE
+      durability: 15
+      name: "&8*"
+
 
 # Example actions items:
 tell-item:
@@ -88,7 +94,7 @@ buyable-item:
     - "&6&lCLICK TO BUY"
   price: 100
   actions:
-   - 'console: give {player} minecraft:emerald 1'
+   - 'console: give %player% minecraft:emerald 1'
 
 level-item:
   material: ENCHANTED_BOOK
@@ -108,7 +114,7 @@ level-item:
     - "&6&lCLICK TO ENCHANT"
   levels: 5
   actions:
-    - 'console: enchant {player} minecraft:sharpness'
+    - 'console: enchant %player% minecraft:sharpness'
 
 required-items:
   material: DIAMOND_SWORD
@@ -130,7 +136,7 @@ required-items:
     - 'diamond, 2'
     - 'stick, 1'
   actions:
-    - 'console: give {player} minecraft:diamond_sword'
+    - 'console: give %player% minecraft:diamond_sword'
 
 permission-items:
   material: BARRIER
@@ -170,7 +176,8 @@ multiple-commands:
   keep-open: true
 
 only-visible-if-permission:
-  material: EGG
+  material: SKULL_ITEM
+  skull-owner: "%player%"
   position-x: 5
   position-y: 6
   name: "<RAINBOW1>Super Secret Item</RAINBOW>"

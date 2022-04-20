@@ -141,7 +141,7 @@ public class InterfaceMakerAPI {
                     }
                     case "console": {
                         Server server = player.getServer();
-                        server.dispatchCommand(server.getConsoleSender(), arg.replace("{player}", player.getName()));
+                        server.dispatchCommand(server.getConsoleSender(), arg.replace("%player%", player.getName()));
                         break;
                     }
                     case "player": {

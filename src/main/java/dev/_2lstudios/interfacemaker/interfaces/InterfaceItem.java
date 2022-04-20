@@ -54,7 +54,8 @@ public class InterfaceItem {
         }
 
         if (skullOwner != null && itemMeta instanceof SkullMeta) {
-            ((SkullMeta) itemMeta).setOwner(skullOwner);
+            ((SkullMeta) itemMeta).setOwner(skullOwner.replace("%player%", player.getName()));
+            item.setDurability((short) 3);
         }
 
         if (mainPotionEffect != null && itemMeta instanceof PotionMeta) {

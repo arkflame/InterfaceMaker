@@ -2,10 +2,12 @@ package dev._2lstudios.interfacemaker.configs;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
+import dev._2lstudios.interfacemaker.interfaces.InterfaceItem;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMenu;
 
@@ -42,6 +44,21 @@ public class MenuConfigProcessor {
 
             if (material != null) {
                 interfaceMenu.setOpenWithItem(material, leftClick, rightClick);
+            }
+        }
+
+        if (menuSettings.contains("style.fill")) {
+            String name = menuSettings.getString("style.fill.name");
+            short durability = (short) menuSettings.getInt("style.fill.durability", 0);
+            String materilaName = menuSettings.getString("style.fill.material");
+            Material material = Material.getMaterial(materilaName);
+
+            if (material != null) {
+                interfaceMenu.fillEmpty(new InterfaceItem()
+                    .setType(material)
+                    .setDurability(durability)
+                    .setName(ChatColor.translateAlternateColorCodes('&', name))
+                );
             }
         }
 
