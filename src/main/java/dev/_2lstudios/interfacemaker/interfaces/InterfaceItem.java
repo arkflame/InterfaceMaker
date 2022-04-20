@@ -355,7 +355,23 @@ public class InterfaceItem {
         // Overriden by super class
     }
 
+    public void onRightClick(Player player, Inventory clickedInventory) {
+        // Overriden by super class
+    }
+
+    public void onLeftClick(Player player, Inventory clickedInventory) {
+        // Overriden by super class
+    }
+
     public void onInteract(Player player) {
+        // Overriden by super class
+    }
+
+    public void onRightInteract(Player player) {
+        // Overriden by super class
+    }
+
+    public void onLeftInteract(Player player) {
         // Overriden by super class
     }
 }

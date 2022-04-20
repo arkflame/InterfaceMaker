@@ -6,6 +6,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -59,7 +60,19 @@ public class InventoryClickListener implements Listener {
                                 Formatter.sendMessage(player,
                                         api.getConfig().getString("messages.click-cooldown"));
                             } else {
+                                interfacePlayer.setLastClick();
+
+                                ClickType click = event.getClick();
+
                                 interfaceItem.onClick(player, clickedInventory);
+
+                                if (click == ClickType.LEFT) {
+                                    interfaceItem.onLeftClick(player, clickedInventory);
+                                }
+
+                                if (click == ClickType.RIGHT) {
+                                    interfaceItem.onRightClick(player, clickedInventory);
+                                }
                             }
                         }
                     }
@@ -149,8 +162,18 @@ public class InventoryClickListener implements Listener {
                                     }
 
                                     interfacePlayer.setLastClick();
-                                    interfaceItem.runActions(api, player);
+
+                                    ClickType click = event.getClick();
+
                                     interfaceItem.onClick(player, clickedInventory);
+    
+                                    if (click == ClickType.LEFT) {
+                                        interfaceItem.onLeftClick(player, clickedInventory);
+                                    }
+    
+                                    if (click == ClickType.RIGHT) {
+                                        interfaceItem.onRightClick(player, clickedInventory);
+                                    }
                                 }
                             }
                         }
