@@ -137,6 +137,18 @@ public class PlayerInteractListener implements Listener {
                         interfacePlayer.setLastInteract();
                         interfaceItem.runActions(api, player);
                         interfaceItem.onInteract(player);
+
+                        Action action = event.getAction();
+
+                        interfaceItem.onInteract(player);
+
+                        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
+                            interfaceItem.onLeftInteract(player);
+                        }
+
+                        if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+                            interfaceItem.onRightInteract(player);
+                        }
                     }
                 }
             }
