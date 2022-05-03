@@ -20,26 +20,30 @@ public class PlayerCommandPreProcessListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
-        String command = event.getMessage().split("/")[1].split(" ")[0].toLowerCase();
+        String[] splittedCommand = event.getMessage().split("/");
 
-        for (Entry<String, InterfaceMenu> entry : api.getConfiguredMenus().entrySet()) {
-            InterfaceMenu inventory = entry.getValue();
+        if (splittedCommand.length > 1) {
+            String command = splittedCommand[1].split(" ")[0].toLowerCase();
 
-            if (inventory.getCommands().contains(command)) {
-                String menuName = entry.getKey();
-                Player player = event.getPlayer();
-                
-                String openPermission = "interfacemaker.menu." +  menuName;
+            for (Entry<String, InterfaceMenu> entry : api.getConfiguredMenus().entrySet()) {
+                InterfaceMenu inventory = entry.getValue();
 
-                if (player.hasPermission(openPermission)) {
-                    inventory.build(player);
-                    event.setCancelled(true);
-                } else {
-                    Formatter.sendMessage(player, api.getConfig().getString("messages.no-permission-menu")
-                            .replace("%menu%", menuName).replace("%permission%", openPermission));
+                if (inventory.getCommands().contains(command)) {
+                    String menuName = entry.getKey();
+                    Player player = event.getPlayer();
+
+                    String openPermission = "interfacemaker.menu." + menuName;
+
+                    if (player.hasPermission(openPermission)) {
+                        inventory.build(player);
+                        event.setCancelled(true);
+                    } else {
+                        Formatter.sendMessage(player, api.getConfig().getString("messages.no-permission-menu")
+                                .replace("%menu%", menuName).replace("%permission%", openPermission));
+                    }
+
+                    break;
                 }
-                
-                break;
             }
         }
     }
