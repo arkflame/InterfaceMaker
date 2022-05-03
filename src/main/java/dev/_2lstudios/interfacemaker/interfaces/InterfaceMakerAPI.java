@@ -20,7 +20,7 @@ public class InterfaceMakerAPI {
     private InterfaceMaker plugin;
     private InterfacePlayerManager interfacePlayerManager;
     private VaultProvider vaultProvider;
-    
+
     private Map<String, InterfaceMenu> configuredMenus = new HashMap<>();
     private Map<String, InterfaceHotbar> configuredHotbars = new HashMap<>();
     private Map<Inventory, InterfaceMenu> openedMenus = new HashMap<>();
@@ -154,7 +154,13 @@ public class InterfaceMakerAPI {
                         break;
                     }
                     case "sound": {
-                        player.playSound(player.getLocation(), Sound.valueOf(arg.toUpperCase()), 1, 1);
+                        String soundName = arg.toUpperCase();
+
+                        try {
+                            player.playSound(player.getLocation(), Sound.valueOf(soundName), 1, 1);
+                        } catch (IllegalArgumentException ex) {
+                            plugin.getLogger().warning("Tried to play invalid sound: " + soundName);
+                        }
                         break;
                     }
                 }
