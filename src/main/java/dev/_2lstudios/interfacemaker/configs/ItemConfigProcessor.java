@@ -32,6 +32,7 @@ public class ItemConfigProcessor {
         String skullOwner = itemSection.getString("skull-owner");
         String potionEffect = itemSection.getString("potion-effect");
         int leatherArmorColor = itemSection.getInt("leather-armor-color");
+        List<String> flags = itemSection.getStringList("flags");
 
         if (material != null) {
             interfaceItem.setType(material);
@@ -49,6 +50,7 @@ public class ItemConfigProcessor {
             interfaceItem.setActions(actions);
             interfaceItem.setSkullOwner(skullOwner);
             interfaceItem.setMainPotionEffect(potionEffect);
+            interfaceItem.setFlags(flags);
 
             if (leatherArmorColor > 0) {
                 interfaceItem.setLeatherArmorColor(Color.fromRGB(leatherArmorColor));

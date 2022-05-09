@@ -120,6 +120,8 @@ required-items:
   material: DIAMOND_SWORD
   position-x: 6
   position-y: 4
+  flags:
+    - HIDE_ATTRIBUTES
   name: "&8[&2&lFORK&8] &eDiamond Sword &cx1"
   lore:
     - " "

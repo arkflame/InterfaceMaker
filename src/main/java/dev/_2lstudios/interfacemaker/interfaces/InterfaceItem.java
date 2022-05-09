@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -22,12 +23,14 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
+
 public class InterfaceItem {
     private Material type = Material.DIRT;
     private Map<Enchantment, Integer> enchantments = new HashMap<>();
     private List<String> lore = new ArrayList<>();
     private Collection<String> actions = new HashSet<>();
     private Collection<ItemStack> requiredItems = new HashSet<>();
+    private Collection<ItemFlag> flags = new HashSet<>();
     private String name = "InterfaceMaker";
     private String permission = null;
     private String viewPermission = null;
@@ -72,6 +75,10 @@ public class InterfaceItem {
 
         for (Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
             itemMeta.addEnchant(entry.getKey(), entry.getValue(), true);
+        }
+
+        for (ItemFlag flag : flags) {
+            itemMeta.addItemFlags(flag);
         }
 
         item.setItemMeta(itemMeta);
@@ -346,6 +353,22 @@ public class InterfaceItem {
 
     public boolean isKeepOpen() {
         return keepOpen;
+    }
+
+    public void setFlags(Collection<String> flags) {
+        this.flags.clear();
+
+        for (String flag : flags) {
+            try {
+                this.flags.add(ItemFlag.valueOf(flag));
+            } catch (IllegalArgumentException ex) {
+                // Ignored
+            }
+        }
+    }
+
+    public Collection<ItemFlag> getFlags() {
+        return flags;
     }
 
     public void runActions(InterfaceMakerAPI api, Player player) {
