@@ -355,7 +355,7 @@ public class InterfaceItem {
         return keepOpen;
     }
 
-    public void setFlags(Collection<String> flags) {
+    public void setFlags(String ...flags) {
         this.flags.clear();
 
         for (String flag : flags) {
