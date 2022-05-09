@@ -355,6 +355,18 @@ public class InterfaceItem {
         return keepOpen;
     }
 
+    public void setFlags(Collection<String> flags) {
+        this.flags.clear();
+
+        for (String flag : flags) {
+            try {
+                this.flags.add(ItemFlag.valueOf(flag));
+            } catch (IllegalArgumentException ex) {
+                // Ignored
+            }
+        }
+    }
+
     public void setFlags(String ...flags) {
         this.flags.clear();
 
