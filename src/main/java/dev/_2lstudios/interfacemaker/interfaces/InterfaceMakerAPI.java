@@ -114,7 +114,7 @@ public class InterfaceMakerAPI {
 
             if (parts.length > 0) {
                 String action = parts[0].trim().toLowerCase();
-                String arg = parts[1].trim();
+                String arg = parts[1].trim().replace("%player_name%", player.getName());
 
                 switch (action) {
                     case "tell": {
