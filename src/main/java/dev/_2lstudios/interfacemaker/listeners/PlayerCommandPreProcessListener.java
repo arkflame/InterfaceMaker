@@ -20,15 +20,15 @@ public class PlayerCommandPreProcessListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerCommandPreProcess(PlayerCommandPreprocessEvent event) {
-        String[] splittedCommand = event.getMessage().split("/");
+        String message = event.getMessage();
 
-        if (splittedCommand.length > 1) {
-            String command = splittedCommand[1].split(" ")[0].toLowerCase();
+        if (message.startsWith("/") && message.length() > 1) {
+            String alias = message.substring(message.indexOf("/") + 1);
 
             for (Entry<String, InterfaceMenu> entry : api.getConfiguredMenus().entrySet()) {
                 InterfaceMenu inventory = entry.getValue();
 
-                if (inventory.getCommands().contains(command)) {
+                if (inventory.getCommands().contains(alias)) {
                     String menuName = entry.getKey();
                     Player player = event.getPlayer();
 
