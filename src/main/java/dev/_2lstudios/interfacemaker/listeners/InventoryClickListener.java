@@ -64,6 +64,7 @@ public class InventoryClickListener implements Listener {
 
                                 ClickType click = event.getClick();
 
+                                interfaceItem.runActions(api, player);
                                 interfaceItem.onClick(player, clickedInventory);
 
                                 if (click == ClickType.LEFT) {
