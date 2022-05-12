@@ -41,6 +41,7 @@ public class InterfaceItem {
     private int amount = 1;
     private int levels = 0;
     private int price = 0;
+    private int customModel = -1;
     private short durability = 0;
     private boolean movement = false;
     private boolean interaction = false;
@@ -51,6 +52,12 @@ public class InterfaceItem {
         ItemMeta itemMeta = item.getItemMeta();
 
         itemMeta.setDisplayName(Formatter.format(player, name));
+
+        if (customModel != -1) {
+            try {
+                itemMeta.setCustomModelData(this.customModel);
+            } catch (Exception ignored) { }
+        }
 
         if (!lore.isEmpty()) {
             itemMeta.setLore(Formatter.format(player, lore));
@@ -186,6 +193,11 @@ public class InterfaceItem {
 
     public InterfaceItem addEnchantment(Enchantment enchantment, int level) {
         enchantments.put(enchantment, level);
+        return this;
+    }
+
+    public InterfaceItem setCustomModel(int model) {
+        this.customModel = model;
         return this;
     }
 

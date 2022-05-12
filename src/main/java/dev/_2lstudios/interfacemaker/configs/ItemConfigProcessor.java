@@ -18,6 +18,7 @@ public class ItemConfigProcessor {
         int positionX = Math.max(0, itemSection.getInt("position-x") - 1);
         int positionY = Math.max(0, itemSection.getInt("position-y") - 1);
         int slot = positionX + (positionY * 9);
+        int customModel = itemSection.getInt("custom-model");
         String name = itemSection.getString("name");
         List<String> lore = itemSection.getStringList("lore");
         List<String> enchantments = itemSection.getStringList("enchantments");
@@ -51,6 +52,7 @@ public class ItemConfigProcessor {
             interfaceItem.setSkullOwner(skullOwner);
             interfaceItem.setMainPotionEffect(potionEffect);
             interfaceItem.setFlags(flags);
+            interfaceItem.setCustomModel(customModel);
 
             if (leatherArmorColor > 0) {
                 interfaceItem.setLeatherArmorColor(Color.fromRGB(leatherArmorColor));

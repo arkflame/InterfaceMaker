@@ -13,6 +13,7 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
     private InterfaceMakerAPI api = InterfaceMaker.getAPI();
     private int autoRefresh = 0;
     private boolean giveOnSpawn = false;
+    private boolean clearInventory = false;
 
     public InterfaceHotbar() {
         super(9, "Hotbar");
@@ -56,7 +57,9 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
         Inventory inventory = player.getInventory();
         HotbarBuildContext context = new HotbarBuildContext(player);
 
-        inventory.clear();
+        if (this.clearInventory) {
+            inventory.clear();
+        }
 
         onBuild(context);
         populateItems(player, inventory);
@@ -85,5 +88,9 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
 
     public void onBuild(HotbarBuildContext context) {
         // Overriden by super class
+    }
+
+    public void setClearInventory(boolean clearInventory) {
+        this.clearInventory = clearInventory;
     }
 }

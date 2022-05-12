@@ -20,9 +20,11 @@ public class HotbarConfigProcessor {
         ConfigurationSection hotbarSettings = config.getConfigurationSection("hotbar-settings");
         int autoRefresh = hotbarSettings.getInt("auto-refresh");
         boolean giveOnSpawn = hotbarSettings.getBoolean("give-on-spawn");
+        boolean clearInventory = hotbarSettings.getBoolean("clear-inventory-on-give");
 
         interfaceHotbar.setAutoRefresh(autoRefresh);
         interfaceHotbar.setGiveOnSpawn(giveOnSpawn);
+        interfaceHotbar.setClearInventory(clearInventory);
 
         for (String sectionName : config.getKeys(false)) {
             if (!sectionName.equals("hotbar-settings")) {

@@ -160,21 +160,16 @@ permission-items:
     - 'player: spawn'
 
 # Other examples
-multiple-commands:
+custom-model-and-texture: # Custom resourcepack is required (1.16+)
   material: NETHER_STAR
   position-x: 4
   position-y: 6
-  name: "&aMultiple commands!"
+  name: "&aCustom Item"
+  custom-model: 123456
   lore:
     - " "
-    - "&7Why settle for a single command"
-    - "&7when it can be two? or three, or"
-    - "&7four or... who knows."
+    - "&7A item with a custom texture/model"
     - " "
-  actions:
-    - 'player: tell who is crazy?'
-    - 'server: you are crazy!'
-    - 'player: yes, i am.'
   keep-open: true
 
 only-visible-if-permission:
