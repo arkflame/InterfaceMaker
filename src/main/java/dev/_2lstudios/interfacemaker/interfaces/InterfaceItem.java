@@ -55,8 +55,9 @@ public class InterfaceItem {
 
         if (customModel != -1) {
             try {
+                this.getClass().getMethod("setCustomModelData", Integer.class);
                 itemMeta.setCustomModelData(this.customModel);
-            } catch (Exception ignored) { }
+            } catch (NoSuchMethodException | SecurityException ignored) { }
         }
 
         if (!lore.isEmpty()) {

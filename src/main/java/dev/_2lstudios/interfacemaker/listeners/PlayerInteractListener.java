@@ -27,7 +27,7 @@ public class PlayerInteractListener implements Listener {
         this.api = api;
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.PHYSICAL) {
             Player player = event.getPlayer();
