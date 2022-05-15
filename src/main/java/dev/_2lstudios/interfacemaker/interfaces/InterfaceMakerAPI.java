@@ -145,8 +145,9 @@ public class InterfaceMakerAPI {
                         break;
                     }
                     case "player": {
-                        Server server = player.getServer();
-                        server.dispatchCommand(player, arg);
+                        //Server server = player.getServer();
+                        player.chat("/" + arg);
+                        //server.dispatchCommand(player, arg);
                         break;
                     }
                     case "server": {
