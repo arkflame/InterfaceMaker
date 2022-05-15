@@ -22,7 +22,10 @@ public class Formatter {
 
     public static String format(Player player, String text) {
         if (text != null) {
-            return color(PlaceholderAPI.setPlaceholders(player, text)).replace("%player_name%", player.getName())
+            if (player.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                text = PlaceholderAPI.setPlaceholders(player, text);
+            }
+            return color(text).replace("%player_name%", player.getName())
                     .replace("%display_name%", player.getDisplayName());
         }
 
