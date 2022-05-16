@@ -20,7 +20,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 
@@ -51,6 +55,13 @@ public class InterfaceItem {
         ItemStack item = new ItemStack(type, amount);
         ItemMeta itemMeta = item.getItemMeta();
 
+        if (mainPotionEffect != null && itemMeta instanceof PotionMeta) {
+            PotionType type = PotionType.valueOf(mainPotionEffect);
+            Potion potion = new Potion(type);
+            item = potion.toItemStack(amount);
+            itemMeta = item.getItemMeta();
+        }
+
         itemMeta.setDisplayName(Formatter.format(player, name));
 
         if (customModel != -1) {
@@ -67,14 +78,6 @@ public class InterfaceItem {
         if (skullOwner != null && itemMeta instanceof SkullMeta) {
             ((SkullMeta) itemMeta).setOwner(skullOwner.replace("%player%", player.getName()));
             item.setDurability((short) 3);
-        }
-
-        if (mainPotionEffect != null && itemMeta instanceof PotionMeta) {
-            PotionEffectType potionEffectType = PotionEffectType.getByName(mainPotionEffect);
-
-            if (potionEffectType != null) {
-                ((PotionMeta) itemMeta).setMainEffect(potionEffectType);
-            }
         }
 
         if (leatherArmorColor != null && itemMeta instanceof LeatherArmorMeta) {
