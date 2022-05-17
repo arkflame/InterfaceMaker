@@ -58,3 +58,6 @@ nb-configuration.xml
 ## VS Code
 .vscode/
 .code-workspace
+
+# Dev Tools
+build.sh

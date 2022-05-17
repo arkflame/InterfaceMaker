@@ -56,10 +56,15 @@ public class InterfaceItem {
         ItemMeta itemMeta = item.getItemMeta();
 
         if (mainPotionEffect != null && itemMeta instanceof PotionMeta) {
-            PotionType type = PotionType.valueOf(mainPotionEffect);
-            Potion potion = new Potion(type);
-            item = potion.toItemStack(amount);
-            itemMeta = item.getItemMeta();
+            PotionEffectType potionEffectType = PotionEffectType.getByName(mainPotionEffect);
+
+            if (potionEffectType != null) {
+                PotionType type = PotionType.getByEffect(potionEffectType);
+                Potion potion = new Potion(type);
+                
+                item = potion.toItemStack(amount);
+                itemMeta = item.getItemMeta();
+            }
         }
 
         itemMeta.setDisplayName(Formatter.format(player, name));
@@ -68,7 +73,8 @@ public class InterfaceItem {
             try {
                 this.getClass().getMethod("setCustomModelData", Integer.class);
                 itemMeta.setCustomModelData(this.customModel);
-            } catch (NoSuchMethodException | SecurityException ignored) { }
+            } catch (NoSuchMethodException | SecurityException ignored) {
+            }
         }
 
         if (!lore.isEmpty()) {
@@ -383,7 +389,7 @@ public class InterfaceItem {
         }
     }
 
-    public void setFlags(String ...flags) {
+    public void setFlags(String... flags) {
         this.flags.clear();
 
         for (String flag : flags) {
