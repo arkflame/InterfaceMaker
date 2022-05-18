@@ -12,6 +12,7 @@ import dev._2lstudios.interfacemaker.interfaces.holders.InterfaceInventoryHolder
 public class InterfaceHotbar extends InterfaceInventoryHolder {
     private InterfaceMakerAPI api = InterfaceMaker.getAPI();
     private int autoRefresh = 0;
+    private boolean allowMovements = false;
     private boolean giveOnSpawn = false;
     private boolean clearInventory = false;
 
@@ -50,7 +51,7 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
     }
 
     public boolean allowsMovement() {
-        return false;
+        return this.allowMovements;
     }
 
     public void build(Player player) {
@@ -92,5 +93,9 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
 
     public void setClearInventory(boolean clearInventory) {
         this.clearInventory = clearInventory;
+    }
+
+    public void setAllowMovements(boolean allowMovements) {
+        this.allowMovements = allowMovements;
     }
 }
