@@ -6,7 +6,9 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -41,50 +43,56 @@ public class InventoryClickListener implements Listener {
 
             if (clickedInventory != null) {
                 Inventory bottomInventory = view.getBottomInventory();
+                Inventory topInventory = view.getTopInventory();
+
+                InterfaceHotbar interfaceHotbar = api.getHotbar(player);
+
                 int slot = event.getSlot();
 
-                if (clickedInventory == bottomInventory) {
-                    InterfaceHotbar interfaceHotbar = api.getHotbar(player);
+                if (clickedInventory == bottomInventory && interfaceHotbar != null) {
+                    InterfaceItem interfaceItem = interfaceHotbar.getItem(slot);
 
-                    if (interfaceHotbar != null) {
-                        InterfaceItem interfaceItem = interfaceHotbar.getItem(slot);
+                    if (interfaceItem != null) {
+                        if (!interfaceHotbar.allowsMovement() || !interfaceItem.allowsMovement()) {
+                            event.setCancelled(true);
+                        }
 
-                        if (interfaceItem != null) {
-                            if (!interfaceHotbar.allowsMovement() || !interfaceItem.allowsMovement()) {
-                                event.setCancelled(true);
+                        InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
+
+                        if (interfacePlayer.isClickCooling()) {
+                            Formatter.sendMessage(player,
+                                    api.getConfig().getString("messages.click-cooldown"));
+                        } else {
+                            interfacePlayer.setLastClick();
+
+                            ClickType click = event.getClick();
+
+                            interfaceItem.runActions(api, player);
+                            interfaceItem.onClick(player, clickedInventory);
+
+                            if (click == ClickType.LEFT) {
+                                interfaceItem.onLeftClick(player, clickedInventory);
                             }
 
-                            InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
-
-                            if (interfacePlayer.isClickCooling()) {
-                                Formatter.sendMessage(player,
-                                        api.getConfig().getString("messages.click-cooldown"));
-                            } else {
-                                interfacePlayer.setLastClick();
-
-                                ClickType click = event.getClick();
-
-                                interfaceItem.runActions(api, player);
-                                interfaceItem.onClick(player, clickedInventory);
-
-                                if (click == ClickType.LEFT) {
-                                    interfaceItem.onLeftClick(player, clickedInventory);
-                                }
-
-                                if (click == ClickType.RIGHT) {
-                                    interfaceItem.onRightClick(player, clickedInventory);
-                                }
+                            if (click == ClickType.RIGHT) {
+                                interfaceItem.onRightClick(player, clickedInventory);
                             }
                         }
                     }
                 } else {
                     InventoryHolder inventoryHolder = clickedInventory.getHolder();
 
+                    if (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY
+                            && clickedInventory == bottomInventory) {
+                        inventoryHolder = topInventory.getHolder();
+                    }
+
                     if (inventoryHolder instanceof MenuBuildContext) {
                         MenuBuildContext menuBuildContext = (MenuBuildContext) inventoryHolder;
 
                         if (menuBuildContext != null) {
                             if (!menuBuildContext.getMenu().allowsMovement()) {
+                                event.setResult(Result.DENY);
                                 event.setCancelled(true);
                             }
 
@@ -92,6 +100,13 @@ public class InventoryClickListener implements Listener {
 
                             if (interfaceItem != null) {
                                 if (!interfaceItem.allowsMovement()) {
+                                    boolean isPickup = event.getAction().name().contains("PICKUP");
+
+                                    if (isPickup && clickedInventory == topInventory) {
+                                        event.setCursor(null);
+                                    }
+
+                                    event.setResult(Result.DENY);
                                     event.setCancelled(true);
                                 }
 
@@ -168,11 +183,11 @@ public class InventoryClickListener implements Listener {
 
                                     interfaceItem.runActions(api, player);
                                     interfaceItem.onClick(player, clickedInventory);
-    
+
                                     if (click == ClickType.LEFT) {
                                         interfaceItem.onLeftClick(player, clickedInventory);
                                     }
-    
+
                                     if (click == ClickType.RIGHT) {
                                         interfaceItem.onRightClick(player, clickedInventory);
                                     }
