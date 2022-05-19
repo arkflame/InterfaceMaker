@@ -95,7 +95,7 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
         this.clearInventory = clearInventory;
     }
 
-    public void setAllowMovements(boolean allowMovements) {
+    public void setAllowsMovements(boolean allowMovements) {
         this.allowMovements = allowMovements;
     }
 }

@@ -26,7 +26,7 @@ public class HotbarConfigProcessor {
         interfaceHotbar.setAutoRefresh(autoRefresh);
         interfaceHotbar.setGiveOnSpawn(giveOnSpawn);
         interfaceHotbar.setClearInventory(clearInventory);
-        interfaceHotbar.setAllowMovements(allowMovement);
+        interfaceHotbar.setAllowsMovements(allowMovement);
 
         for (String sectionName : config.getKeys(false)) {
             if (!sectionName.equals("hotbar-settings")) {
