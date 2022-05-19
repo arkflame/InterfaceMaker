@@ -113,7 +113,7 @@ public class InterfaceMenu extends InterfaceInventoryHolder {
         return movement;
     }
 
-    public InterfaceMenu setMovement(boolean movement) {
+    public InterfaceMenu setAllowsMovement(boolean movement) {
         this.movement = movement;
         return this;
     }

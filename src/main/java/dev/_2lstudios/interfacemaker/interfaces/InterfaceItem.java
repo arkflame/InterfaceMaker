@@ -174,7 +174,7 @@ public class InterfaceItem {
         return this;
     }
 
-    public InterfaceItem setMovement(boolean movement) {
+    public InterfaceItem setAllowsMovement(boolean movement) {
         this.movement = movement;
         return this;
     }
