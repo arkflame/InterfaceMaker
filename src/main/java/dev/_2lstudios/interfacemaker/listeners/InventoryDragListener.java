@@ -25,20 +25,22 @@ public class InventoryDragListener implements Listener {
         Inventory topInventory = view.getTopInventory();
         InterfaceMenu interfaceMenu = api.getOpenedMenu(topInventory);
 
-        if (interfaceMenu != null && interfaceMenu.allowsMovement()) {
-            Collection<Integer> slots = event.getInventorySlots();
+        if (interfaceMenu != null) {
+            if (interfaceMenu.allowsMovement()) {
+                Collection<Integer> slots = event.getInventorySlots();
 
-            for (int slot : slots) {
-                InterfaceItem interfaceItem = interfaceMenu.getItem(slot);
+                for (int slot : slots) {
+                    InterfaceItem interfaceItem = interfaceMenu.getItem(slot);
 
-                if (interfaceItem != null) {
-                    if (!interfaceItem.allowsMovement()) {
-                        event.setCancelled(true);
+                    if (interfaceItem != null) {
+                        if (!interfaceItem.allowsMovement()) {
+                            event.setCancelled(true);
+                        }
                     }
                 }
+            } else {
+                event.setCancelled(true);
             }
-        } else {
-            event.setCancelled(true);
         }
     }
 }
