@@ -21,8 +21,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
@@ -77,7 +75,7 @@ public class InterfaceItem {
             }
         }
 
-        if (!lore.isEmpty()) {
+        if (lore != null && !lore.isEmpty()) {
             itemMeta.setLore(Formatter.format(player, lore));
         }
 
