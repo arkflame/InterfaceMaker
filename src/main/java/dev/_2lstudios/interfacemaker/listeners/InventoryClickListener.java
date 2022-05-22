@@ -72,9 +72,7 @@ public class InventoryClickListener implements Listener {
 
                             if (click == ClickType.LEFT) {
                                 interfaceItem.onLeftClick(player, clickedInventory);
-                            }
-
-                            if (click == ClickType.RIGHT) {
+                            } else if (click == ClickType.RIGHT) {
                                 interfaceItem.onRightClick(player, clickedInventory);
                             }
                         }
@@ -186,9 +184,7 @@ public class InventoryClickListener implements Listener {
 
                                     if (click == ClickType.LEFT) {
                                         interfaceItem.onLeftClick(player, clickedInventory);
-                                    }
-
-                                    if (click == ClickType.RIGHT) {
+                                    } else if (click == ClickType.RIGHT) {
                                         interfaceItem.onRightClick(player, clickedInventory);
                                     }
                                 }
