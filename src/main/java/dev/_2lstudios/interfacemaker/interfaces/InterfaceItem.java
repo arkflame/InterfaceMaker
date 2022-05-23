@@ -73,7 +73,6 @@ public class InterfaceItem {
                 itemMeta.getClass().getMethod("setCustomModelData", Integer.class);
                 itemMeta.setCustomModelData(this.customModel);
             } catch (NoSuchMethodException | SecurityException ignored) {
-                // Ignored
                 InterfaceMaker.getPlugin().getLogger().warning("This version of Spigot does not support CustomModelData.");
             }
         }
