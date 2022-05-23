@@ -21,6 +21,7 @@ public class Formatter {
     }
 
     public static String format(Player player, String text) {
+        
         if (text != null) {
             if (player.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                 text = PlaceholderAPI.setPlaceholders(player, text);

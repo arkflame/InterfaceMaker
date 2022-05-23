@@ -23,6 +23,7 @@ import dev._2lstudios.interfacemaker.listeners.PlayerInteractListener;
 import dev._2lstudios.interfacemaker.listeners.PlayerJoinListener;
 import dev._2lstudios.interfacemaker.listeners.PlayerQuitListener;
 import dev._2lstudios.interfacemaker.player.InterfacePlayerManager;
+import dev._2lstudios.interfacemaker.tasks.RefreshTask;
 
 public class InterfaceMaker extends JavaPlugin {
     public void reloadFiles() {
@@ -85,6 +86,8 @@ public class InterfaceMaker extends JavaPlugin {
         server.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         getCommand("interfacemaker").setExecutor(new InterfaceMakerCommand(api, this));
+
+        server.getScheduler().runTaskTimer(this, new RefreshTask(api), 1L, 1L);
     }
 
     private static InterfaceMakerAPI api;

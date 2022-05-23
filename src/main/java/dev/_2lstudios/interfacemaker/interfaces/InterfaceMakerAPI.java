@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import dev._2lstudios.interfacemaker.InterfaceMaker;
+import dev._2lstudios.interfacemaker.interfaces.contexts.HotbarBuildContext;
+import dev._2lstudios.interfacemaker.interfaces.contexts.MenuBuildContext;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 import dev._2lstudios.interfacemaker.player.InterfacePlayerManager;
 import dev._2lstudios.interfacemaker.utils.ProxyUtils;
@@ -23,8 +25,8 @@ public class InterfaceMakerAPI {
 
     private Map<String, InterfaceMenu> configuredMenus = new HashMap<>();
     private Map<String, InterfaceHotbar> configuredHotbars = new HashMap<>();
-    private Map<Inventory, InterfaceMenu> openedMenus = new HashMap<>();
-    private Map<Player, InterfaceHotbar> openedHotbars = new HashMap<>();
+    private Map<Inventory, MenuBuildContext> openedMenus = new HashMap<>();
+    private Map<Player, HotbarBuildContext> openedHotbars = new HashMap<>();
 
     public InterfaceMakerAPI(InterfaceMaker plugin) {
         this.plugin = plugin;
@@ -68,24 +70,44 @@ public class InterfaceMakerAPI {
         configuredHotbars.put(name, interfaceHotbar);
     }
 
-    public InterfaceMenu getOpenedMenu(Inventory inventory) {
+    public MenuBuildContext getOpenedMenuContext(Inventory inventory) {
         return openedMenus.getOrDefault(inventory, null);
     }
 
-    public void setOpened(Inventory inventory, InterfaceMenu interfaceMenu) {
-        openedMenus.put(inventory, interfaceMenu);
+    public InterfaceMenu getOpenedMenu(Inventory inventory) {
+        MenuBuildContext context = getOpenedMenuContext(inventory);
+
+        if (context != null) {
+            return context.getMenu();
+        }
+
+        return null;
     }
 
-    public void setClosed(Inventory inventory) {
+    public void setMenu(Inventory inventory, MenuBuildContext context) {
+        openedMenus.put(inventory, context);
+    }
+
+    public void unsetMenu(Inventory inventory) {
         openedMenus.remove(inventory);
     }
 
-    public InterfaceHotbar getHotbar(Player player) {
+    public HotbarBuildContext getHotbarContext(Player player) {
         return openedHotbars.getOrDefault(player, null);
     }
 
-    public void setHotbar(Player player, InterfaceHotbar interfaceHotbar) {
-        openedHotbars.put(player, interfaceHotbar);
+    public InterfaceHotbar getHotbar(Player player) {
+        HotbarBuildContext context = getHotbarContext(player);
+
+        if (context != null) {
+            return context.getHotbar();
+        }
+
+        return null;
+    }
+
+    public void setHotbar(Player player, HotbarBuildContext context) {
+        openedHotbars.put(player, context);
     }
 
     public void unsetHotbar(Player player) {
@@ -165,5 +187,13 @@ public class InterfaceMakerAPI {
                 }
             }
         }
+    }
+
+    public Map<Inventory, MenuBuildContext> getOpenedMenuContexts() {
+        return openedMenus;
+    }
+
+    public Map<Player, HotbarBuildContext> getOpenedHotbarContexts() {
+        return openedHotbars;
     }
 }

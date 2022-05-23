@@ -1,5 +1,6 @@
 package dev._2lstudios.interfacemaker.player;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -36,5 +37,9 @@ public class InterfacePlayerManager {
 
     public InterfacePlayer get(Player player) {
         return get(player.getUniqueId());
+    }
+
+    public Collection<InterfacePlayer> getPlayers() {
+        return players.values();
     }
 }

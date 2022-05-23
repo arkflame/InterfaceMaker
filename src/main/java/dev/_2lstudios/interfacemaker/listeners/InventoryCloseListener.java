@@ -18,6 +18,6 @@ public class InventoryCloseListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent event) {
         Inventory inventory = event.getInventory();
 
-        api.setClosed(inventory);
+        api.unsetMenu(inventory);
     }
 }

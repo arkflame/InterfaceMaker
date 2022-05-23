@@ -54,9 +54,8 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
         return this.allowMovements;
     }
 
-    public void build(Player player) {
-        Inventory inventory = player.getInventory();
-        HotbarBuildContext context = new HotbarBuildContext(player);
+    public InterfaceHotbar build(Player player, Inventory inventory) {
+        HotbarBuildContext context = new HotbarBuildContext(player, this);
 
         if (this.clearInventory) {
             inventory.clear();
@@ -66,7 +65,13 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
         populateItems(player, inventory);
         populateItems(player, inventory, context.getItems());
 
-        api.setHotbar(player, this);
+        api.setHotbar(player, context);
+        
+        return this;
+    }
+
+    public InterfaceHotbar build(Player player) {
+        return build(player, player.getInventory());
     }
 
     public InterfaceHotbar setGiveOnSpawn(boolean giveOnSpawn) {

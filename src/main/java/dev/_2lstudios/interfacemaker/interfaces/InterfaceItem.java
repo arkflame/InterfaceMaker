@@ -77,7 +77,7 @@ public class InterfaceItem {
         }
 
         if (lore != null && !lore.isEmpty()) {
-            itemMeta.setLore(Formatter.format(player, lore));
+            itemMeta.setLore(Formatter.format(player, new ArrayList<>(lore)));
         }
 
         if (skullOwner != null && itemMeta instanceof SkullMeta) {

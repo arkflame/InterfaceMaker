@@ -60,13 +60,16 @@ public class InterfaceMenu extends InterfaceInventoryHolder {
         return this;
     }
 
-    public InterfaceMenu build(Player player) {
+    public InterfaceMenu build(Player player, Inventory inventory) {
         int size = getSize();
         MenuBuildContext context = new MenuBuildContext(player, this, getTitle(), size);
 
         onBuild(context);
 
-        Inventory inventory = server.createInventory(context, size, Formatter.format(player, context.getTitle()));
+        if (inventory == null) {
+            inventory = server.createInventory(context, size, Formatter.format(player, context.getTitle()));
+        }
+
         context.setInventory(inventory);
         context.addItems(getItems());
         context.populateItems(player, inventory);
@@ -76,10 +79,14 @@ public class InterfaceMenu extends InterfaceInventoryHolder {
             player.openInventory(inventory);
         }
 
-        api.setOpened(inventory, this);
+        api.setMenu(inventory, context);
         api.runActions(player, this.getOpenActions());
-        
+
         return this;
+    }
+
+    public InterfaceMenu build(Player player) {
+        return build(player, null);
     }
 
     public boolean allowsMovement() {
