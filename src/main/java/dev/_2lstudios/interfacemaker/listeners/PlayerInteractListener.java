@@ -142,9 +142,7 @@ public class PlayerInteractListener implements Listener {
 
                         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
                             interfaceItem.onLeftInteract(player);
-                        }
-
-                        if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
+                        } else if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
                             interfaceItem.onRightInteract(player);
                         }
                     }
