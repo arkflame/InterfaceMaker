@@ -3,7 +3,7 @@ menu-settings:
   rows: 6
   commands:
     - examplemenu
-  auto-refresh: 5
+  auto-refresh: 20
   open-actions:
     - 'tell: <RAINBOW1>InterfaceMaker is here for a revolution!</RAINBOW>'
     - 'sound: NOTE_PLING'
