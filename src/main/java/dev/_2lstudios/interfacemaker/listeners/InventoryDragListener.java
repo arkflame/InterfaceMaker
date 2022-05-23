@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -34,13 +35,18 @@ public class InventoryDragListener implements Listener {
 
                     if (interfaceItem != null) {
                         if (!interfaceItem.allowsMovement()) {
-                            event.setCancelled(true);
+                            cancelEvent(event);
                         }
                     }
                 }
             } else {
-                event.setCancelled(true);
+                cancelEvent(event);
             }
         }
+    }
+
+    private void cancelEvent(InventoryDragEvent event) {
+        event.setResult(Result.DENY);
+        event.setCancelled(true);
     }
 }

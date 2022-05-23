@@ -54,7 +54,7 @@ public class InventoryClickListener implements Listener {
 
                     if (interfaceItem != null) {
                         if (!interfaceHotbar.allowsMovement() || !interfaceItem.allowsMovement()) {
-                            event.setCancelled(true);
+                            cancelEvent(event);
                         }
 
                         InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
@@ -79,118 +79,110 @@ public class InventoryClickListener implements Listener {
                             }
                         }
                     }
-                } else {
-                    InventoryHolder inventoryHolder = clickedInventory.getHolder();
+                }
 
-                    if (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY
-                            && clickedInventory == bottomInventory) {
-                        inventoryHolder = topInventory.getHolder();
-                    }
+                InventoryHolder inventoryHolder = clickedInventory.getHolder();
 
-                    if (inventoryHolder instanceof MenuBuildContext) {
-                        MenuBuildContext menuBuildContext = (MenuBuildContext) inventoryHolder;
+                if (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY
+                        && clickedInventory == bottomInventory) {
+                    inventoryHolder = topInventory.getHolder();
+                }
 
-                        if (menuBuildContext != null) {
-                            if (!menuBuildContext.getMenu().allowsMovement()) {
-                                event.setResult(Result.DENY);
-                                event.setCancelled(true);
+                if (inventoryHolder instanceof MenuBuildContext) {
+                    MenuBuildContext menuBuildContext = (MenuBuildContext) inventoryHolder;
+
+                    if (menuBuildContext != null) {
+                        if (!menuBuildContext.getMenu().allowsMovement()) {
+                            cancelEvent(event);
+                        }
+
+                        InterfaceItem interfaceItem = menuBuildContext.getItem(slot);
+
+                        if (interfaceItem != null) {
+                            if (!interfaceItem.allowsMovement()) {
+                                cancelEvent(event);
                             }
 
-                            InterfaceItem interfaceItem = menuBuildContext.getItem(slot);
+                            InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
 
-                            if (interfaceItem != null) {
-                                if (!interfaceItem.allowsMovement()) {
-                                    boolean isPickup = event.getAction().name().contains("PICKUP");
+                            if (interfacePlayer.isClickCooling()) {
+                                Formatter.sendMessage(player,
+                                        api.getConfig().getString("messages.click-cooldown"));
+                            } else {
+                                int levels = interfaceItem.getLevels();
 
-                                    if (isPickup && clickedInventory == topInventory) {
-                                        event.setCursor(null);
+                                if (levels > 0) {
+                                    int playerLevel = player.getLevel();
+
+                                    if (playerLevel >= levels) {
+                                        player.setLevel(playerLevel - levels);
+                                    } else {
+                                        Formatter.sendMessage(player,
+                                                api.getConfig().getString("messages.no-levels")
+                                                        .replace("%levels%", String.valueOf(levels)));
+                                        return;
                                     }
-
-                                    event.setResult(Result.DENY);
-                                    event.setCancelled(true);
                                 }
 
-                                InterfacePlayer interfacePlayer = api.getInterfacePlayerManager().get(player);
+                                String permission = interfaceItem.getPermission();
 
-                                if (interfacePlayer.isClickCooling()) {
-                                    Formatter.sendMessage(player,
-                                            api.getConfig().getString("messages.click-cooldown"));
-                                } else {
-                                    int levels = interfaceItem.getLevels();
+                                if (permission != null && !player.hasPermission(permission)) {
+                                    String permissionMessage = interfaceItem.getPermissionMessage();
 
-                                    if (levels > 0) {
-                                        int playerLevel = player.getLevel();
-
-                                        if (playerLevel >= levels) {
-                                            player.setLevel(playerLevel - levels);
-                                        } else {
-                                            Formatter.sendMessage(player,
-                                                    api.getConfig().getString("messages.no-levels")
-                                                            .replace("%levels%", String.valueOf(levels)));
-                                            return;
-                                        }
+                                    if (permissionMessage != null) {
+                                        Formatter.sendMessage(player, permissionMessage);
                                     }
 
-                                    String permission = interfaceItem.getPermission();
+                                    return;
+                                }
 
-                                    if (permission != null && !player.hasPermission(permission)) {
-                                        String permissionMessage = interfaceItem.getPermissionMessage();
+                                Collection<ItemStack> requiredItems = interfaceItem.getRequiredItems();
 
-                                        if (permissionMessage != null) {
-                                            Formatter.sendMessage(player, permissionMessage);
-                                        }
+                                if (!requiredItems.isEmpty()) {
+                                    ItemStack[] requiredItemsArray = requiredItems.toArray(new ItemStack[0]);
+                                    PlayerInventory inventory = player.getInventory();
 
+                                    if (!InventoryUtils.contains(inventory, requiredItemsArray)) {
+                                        Formatter.sendMessage(player,
+                                                api.getConfig().getString("messages.no-items"));
                                         return;
                                     }
 
-                                    Collection<ItemStack> requiredItems = interfaceItem.getRequiredItems();
+                                    InventoryUtils.remove(inventory, requiredItemsArray);
 
-                                    if (!requiredItems.isEmpty()) {
-                                        ItemStack[] requiredItemsArray = requiredItems.toArray(new ItemStack[0]);
-                                        PlayerInventory inventory = player.getInventory();
+                                    player.updateInventory();
+                                }
 
-                                        if (!InventoryUtils.contains(inventory, requiredItemsArray)) {
-                                            Formatter.sendMessage(player,
-                                                    api.getConfig().getString("messages.no-items"));
-                                            return;
-                                        }
+                                int price = interfaceItem.getPrice();
 
-                                        InventoryUtils.remove(inventory, requiredItemsArray);
+                                if (price > 0) {
+                                    VaultProvider vaultProvider = api.getVaultProvider();
 
-                                        player.updateInventory();
+                                    if (!vaultProvider.isEconomyRegistered()) {
+                                        Formatter.sendMessage(player,
+                                                api.getConfig().getString("messages.no-economy"));
+                                        return;
+                                    } else if (!vaultProvider.getEconomy().has(player, price)) {
+                                        Formatter.sendMessage(player,
+                                                api.getConfig().getString("messages.no-balance")
+                                                        .replace("%price%", String.valueOf(price)));
+                                        return;
                                     }
+                                }
 
-                                    int price = interfaceItem.getPrice();
+                                interfacePlayer.setLastClick();
 
-                                    if (price > 0) {
-                                        VaultProvider vaultProvider = api.getVaultProvider();
+                                ClickType click = event.getClick();
 
-                                        if (!vaultProvider.isEconomyRegistered()) {
-                                            Formatter.sendMessage(player,
-                                                    api.getConfig().getString("messages.no-economy"));
-                                            return;
-                                        } else if (!vaultProvider.getEconomy().has(player, price)) {
-                                            Formatter.sendMessage(player,
-                                                    api.getConfig().getString("messages.no-balance")
-                                                            .replace("%price%", String.valueOf(price)));
-                                            return;
-                                        }
-                                    }
+                                interfaceItem.runActions(api, player);
+                                interfaceItem.onClick(player, clickedInventory);
 
-                                    interfacePlayer.setLastClick();
+                                if (click == ClickType.LEFT) {
+                                    interfaceItem.onLeftClick(player, clickedInventory);
+                                }
 
-                                    ClickType click = event.getClick();
-
-                                    interfaceItem.runActions(api, player);
-                                    interfaceItem.onClick(player, clickedInventory);
-
-                                    if (click == ClickType.LEFT) {
-                                        interfaceItem.onLeftClick(player, clickedInventory);
-                                    }
-
-                                    if (click == ClickType.RIGHT) {
-                                        interfaceItem.onRightClick(player, clickedInventory);
-                                    }
+                                if (click == ClickType.RIGHT) {
+                                    interfaceItem.onRightClick(player, clickedInventory);
                                 }
                             }
                         }
@@ -198,5 +190,16 @@ public class InventoryClickListener implements Listener {
                 }
             }
         }
+    }
+
+    private void cancelEvent(InventoryClickEvent event) {
+        boolean isPickup = event.getAction().name().contains("PICKUP");
+
+        if (isPickup) {
+            event.setCursor(null);
+        }
+
+        event.setResult(Result.DENY);
+        event.setCancelled(true);
     }
 }

@@ -69,9 +69,10 @@ public class InterfaceItem {
 
         if (customModel != -1) {
             try {
-                this.getClass().getMethod("setCustomModelData", Integer.class);
+                itemMeta.getClass().getMethod("setCustomModelData", Integer.class);
                 itemMeta.setCustomModelData(this.customModel);
             } catch (NoSuchMethodException | SecurityException ignored) {
+                // Ignored
             }
         }
 
