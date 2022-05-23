@@ -26,7 +26,15 @@ import dev._2lstudios.interfacemaker.player.InterfacePlayerManager;
 import dev._2lstudios.interfacemaker.tasks.RefreshTask;
 
 public class InterfaceMaker extends JavaPlugin {
+    private static InterfaceMaker plugin;
+
+    public static InterfaceMaker getPlugin() {
+        return plugin;
+    }
+
     public void reloadFiles() {
+        plugin = this;
+
         saveDefaultConfig();
 
         api.clearConfiguredHotbars();

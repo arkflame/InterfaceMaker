@@ -24,6 +24,7 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
+import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 
 public class InterfaceItem {
@@ -73,6 +74,7 @@ public class InterfaceItem {
                 itemMeta.setCustomModelData(this.customModel);
             } catch (NoSuchMethodException | SecurityException ignored) {
                 // Ignored
+                InterfaceMaker.getPlugin().getLogger().warning("This version of Spigot does not support CustomModelData.");
             }
         }
 
