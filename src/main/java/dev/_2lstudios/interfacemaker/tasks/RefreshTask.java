@@ -36,7 +36,7 @@ public class RefreshTask implements Runnable {
             HotbarBuildContext context = entry.getValue();
             int autoRefresh = context.getHotbar().getAutoRefresh();
 
-            if (autoRefresh > 0 && autoRefresh % ticks == 0) {
+            if (autoRefresh > 0 && ticks % autoRefresh == 0) {
                 context.populateItems(player, context.getInventory());
             }
         }

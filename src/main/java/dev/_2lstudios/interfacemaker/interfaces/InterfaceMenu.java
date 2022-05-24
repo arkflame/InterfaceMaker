@@ -64,14 +64,15 @@ public class InterfaceMenu extends InterfaceInventoryHolder {
         int size = getSize();
         MenuBuildContext context = new MenuBuildContext(player, this, getTitle(), size);
 
-        onBuild(context);
-
         if (inventory == null) {
             inventory = server.createInventory(context, size, Formatter.format(player, context.getTitle()));
         }
 
         context.setInventory(inventory);
         context.addItems(getItems());
+
+        onBuild(context);
+
         context.populateItems(player, inventory);
 
         if (player.getInventory() != inventory) {
