@@ -2,6 +2,7 @@ package dev._2lstudios.interfacemaker.interfaces;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.bukkit.Server;
@@ -27,6 +28,8 @@ public class InterfaceMakerAPI {
     private Map<String, InterfaceHotbar> configuredHotbars = new HashMap<>();
     private Map<Inventory, MenuBuildContext> openedMenus = new HashMap<>();
     private Map<Player, HotbarBuildContext> openedHotbars = new HashMap<>();
+
+    private Collection<QueuedBuildable> queuedBuildables = new HashSet<>();
 
     public InterfaceMakerAPI(InterfaceMaker plugin) {
         this.plugin = plugin;
@@ -195,5 +198,13 @@ public class InterfaceMakerAPI {
 
     public Map<Player, HotbarBuildContext> getOpenedHotbarContexts() {
         return openedHotbars;
+    }
+
+    public void queueBuild(Player player, Buildable buildable, int giveDelay) {
+        queuedBuildables.add(new QueuedBuildable(buildable, player, giveDelay));
+    }
+
+    public Collection<QueuedBuildable> getQueuedBuildables() {
+        return queuedBuildables;
     }
 }

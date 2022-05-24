@@ -9,9 +9,10 @@ import dev._2lstudios.interfacemaker.InterfaceMaker;
 import dev._2lstudios.interfacemaker.interfaces.contexts.HotbarBuildContext;
 import dev._2lstudios.interfacemaker.interfaces.holders.InterfaceInventoryHolder;
 
-public class InterfaceHotbar extends InterfaceInventoryHolder {
+public class InterfaceHotbar extends InterfaceInventoryHolder implements Buildable {
     private InterfaceMakerAPI api = InterfaceMaker.getAPI();
     private int autoRefresh = 0;
+    private int giveDelay = 0;
     private boolean allowMovements = false;
     private boolean giveOnSpawn = false;
     private boolean clearInventory = false;
@@ -95,15 +96,28 @@ public class InterfaceHotbar extends InterfaceInventoryHolder {
         return autoRefresh;
     }
 
-    public void onBuild(HotbarBuildContext context) {
-        // Overriden by super class
-    }
-
     public void setClearInventory(boolean clearInventory) {
         this.clearInventory = clearInventory;
     }
 
     public void setAllowsMovement(boolean allowMovements) {
         this.allowMovements = allowMovements;
+    }
+
+    public void setGiveDelay(int giveDelay) {
+        this.giveDelay = giveDelay;
+    }
+
+    public int getGiveDelay() {
+        return giveDelay;
+    }
+
+    public InterfaceHotbar buildLater(Player player, int giveDelay) {
+        api.queueBuild(player, this, giveDelay);
+        return this;
+    }
+
+    public void onBuild(HotbarBuildContext context) {
+        // Overriden by super class
     }
 }

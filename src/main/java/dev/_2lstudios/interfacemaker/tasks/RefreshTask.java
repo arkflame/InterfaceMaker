@@ -1,11 +1,14 @@
 package dev._2lstudios.interfacemaker.tasks;
 
+import java.util.Iterator;
 import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import dev._2lstudios.interfacemaker.interfaces.Buildable;
 import dev._2lstudios.interfacemaker.interfaces.InterfaceMakerAPI;
+import dev._2lstudios.interfacemaker.interfaces.QueuedBuildable;
 import dev._2lstudios.interfacemaker.interfaces.contexts.HotbarBuildContext;
 import dev._2lstudios.interfacemaker.interfaces.contexts.MenuBuildContext;
 
@@ -20,6 +23,17 @@ public class RefreshTask implements Runnable {
     @Override
     public void run() {
         ticks++;
+
+        Iterator<QueuedBuildable> buildablesQueueIterator = api.getQueuedBuildables().iterator();
+
+        while(buildablesQueueIterator.hasNext()) {
+            QueuedBuildable queuedBuildable = buildablesQueueIterator.next();
+
+            if (queuedBuildable.tick() <= 0) {
+                buildablesQueueIterator.remove();
+                queuedBuildable.build();
+            }
+        }
 
         for (Entry<Inventory, MenuBuildContext> entry : api.getOpenedMenuContexts().entrySet()) {
             MenuBuildContext context = entry.getValue();

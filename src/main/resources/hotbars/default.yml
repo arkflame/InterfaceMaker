@@ -1,6 +1,7 @@
 hotbar-settings:
   auto-refresh: 20
   give-on-spawn: true
+  give-delay: 0
   clear-inventory-on-give: true
   allow-movements: false
 

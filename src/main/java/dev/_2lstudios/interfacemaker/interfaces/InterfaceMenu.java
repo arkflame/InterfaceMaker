@@ -15,7 +15,7 @@ import dev._2lstudios.interfacemaker.interfaces.contexts.MenuBuildContext;
 import dev._2lstudios.interfacemaker.interfaces.holders.InterfaceInventoryHolder;
 import dev._2lstudios.interfacemaker.placeholders.Formatter;
 
-public class InterfaceMenu extends InterfaceInventoryHolder {
+public class InterfaceMenu extends InterfaceInventoryHolder implements Buildable {
     private InterfaceMakerAPI api = InterfaceMaker.getAPI();
     private Server server = Bukkit.getServer();
     private boolean movement = false;
@@ -148,6 +148,11 @@ public class InterfaceMenu extends InterfaceInventoryHolder {
 
     public boolean isOpenWithItemRightClick() {
         return openWithItemRightClick;
+    }
+
+    public InterfaceMenu buildLater(Player player, int giveDelay) {
+        api.queueBuild(player, this, giveDelay);
+        return this;
     }
 
     public void onBuild(MenuBuildContext context) {

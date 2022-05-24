@@ -24,8 +24,13 @@ public class PlayerJoinListener implements Listener {
 
         for (InterfaceHotbar hotbar : api.getConfiguredHotbarsValues()) {
             if (hotbar.giveOnSpawn()) {
-                hotbar.build(player);
-                break;
+                int giveDelay = hotbar.getGiveDelay();
+
+                if (giveDelay > 0) {
+                    hotbar.buildLater(player, giveDelay);
+                } else {
+                    hotbar.build(player);
+                }
             }
         }
     }
