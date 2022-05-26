@@ -15,6 +15,8 @@ public class InterfaceHotbar extends InterfaceInventoryHolder implements Buildab
     private int giveDelay = 0;
     private boolean allowMovements = false;
     private boolean giveOnSpawn = false;
+    private boolean dropOldItems = false;
+    private boolean replaceOldItems = true;
     private boolean clearInventory = false;
 
     public InterfaceHotbar() {
@@ -27,7 +29,7 @@ public class InterfaceHotbar extends InterfaceInventoryHolder implements Buildab
     }
 
     public InterfaceHotbar populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items) {
-        super.populateItems(player, inventory, items);
+        super.populateItems(player, inventory, items, dropOldItems, replaceOldItems);
         return this;
     }
 
@@ -85,6 +87,24 @@ public class InterfaceHotbar extends InterfaceInventoryHolder implements Buildab
 
     public boolean giveOnSpawn() {
         return giveOnSpawn;
+    }
+
+    public InterfaceHotbar setDropOldItems(boolean dropOldItems) {
+        this.dropOldItems = dropOldItems;
+        return this;
+    }
+
+    public boolean dropOldItems() {
+        return dropOldItems;
+    }
+
+    public InterfaceHotbar setReplaceOldItems(boolean replaceOldItems) {
+        this.replaceOldItems = replaceOldItems;
+        return this;
+    }
+
+    public boolean replaceOldItems() {
+        return replaceOldItems;
     }
 
     public InterfaceHotbar setAutoRefresh(int autoRefresh) {

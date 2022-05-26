@@ -21,12 +21,16 @@ public class HotbarConfigProcessor {
         int autoRefresh = hotbarSettings.getInt("auto-refresh");
         int giveDelay = hotbarSettings.getInt("give-delay");
         boolean giveOnSpawn = hotbarSettings.getBoolean("give-on-spawn");
+        boolean dropOldItems = hotbarSettings.getBoolean("drop-old-items");
+        boolean replaceOldItems = hotbarSettings.getBoolean("replace-old-items", true);
         boolean clearInventory = hotbarSettings.getBoolean("clear-inventory-on-give");
         boolean allowMovement = hotbarSettings.getBoolean("allow-movements");
 
         interfaceHotbar.setAutoRefresh(autoRefresh);
         interfaceHotbar.setGiveDelay(giveDelay);
         interfaceHotbar.setGiveOnSpawn(giveOnSpawn);
+        interfaceHotbar.setDropOldItems(dropOldItems);
+        interfaceHotbar.setReplaceOldItems(replaceOldItems);
         interfaceHotbar.setClearInventory(clearInventory);
         interfaceHotbar.setAllowsMovement(allowMovement);
 

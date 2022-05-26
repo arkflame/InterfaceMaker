@@ -1,6 +1,8 @@
 hotbar-settings:
   auto-refresh: 20
   give-on-spawn: true
+  drop-old-items: false
+  replace-old-items: true
   give-delay: 0
   clear-inventory-on-give: true
   allow-movements: false

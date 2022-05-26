@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +37,10 @@ public class InterfaceItemHolder {
         return items.containsKey(slot);
     }
 
-    public InterfaceItemHolder populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items) {
+    public InterfaceItemHolder populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items,
+            boolean dropOldItems, boolean replaceOldItems) {
+        Location location = player.getLocation();
+        World world = location.getWorld();
         int inventorySize = inventory.getSize();
 
         for (Entry<Integer, InterfaceItem> entry : items.entrySet()) {
@@ -43,7 +49,7 @@ public class InterfaceItemHolder {
 
             if (interfaceItem != null) {
                 String viewPermission = interfaceItem.getViewPermission();
-                
+
                 if (viewPermission != null && !player.hasPermission(viewPermission)) {
                     continue;
                 }
@@ -52,7 +58,15 @@ public class InterfaceItemHolder {
 
                 if (slot < inventorySize) {
                     try {
-                        inventory.setItem(slot, item);
+                        ItemStack oldItem = inventory.getItem(slot);
+
+                        if (dropOldItems && oldItem != null && oldItem.getType() != Material.AIR) {
+                            world.dropItem(location, item);
+                        }
+
+                        if (replaceOldItems || oldItem != null) {
+                            inventory.setItem(slot, item);
+                        }
                     } catch (IndexOutOfBoundsException ex) {
                         // Ignored
                     }
@@ -61,6 +75,15 @@ public class InterfaceItemHolder {
         }
 
         return this;
+    }
+
+    public InterfaceItemHolder populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items,
+            boolean dropOldItems) {
+        return populateItems(player, inventory, items, dropOldItems, true);
+    }
+
+    public InterfaceItemHolder populateItems(Player player, Inventory inventory, Map<Integer, InterfaceItem> items) {
+        return populateItems(player, inventory, items, false);
     }
 
     public InterfaceItemHolder populateItems(Player player, Inventory inventory) {
