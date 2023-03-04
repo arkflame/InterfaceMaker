@@ -28,6 +28,13 @@ public class InterfaceItemHolder {
         this.items.putAll(items);
     }
 
+    public InterfaceItemHolder setItem(int startSlot, int endSlot, InterfaceItem item) {
+        while (startSlot <= endSlot) {
+            setItem(startSlot++, item);
+        }
+        return this;
+    }
+
     public InterfaceItemHolder setItem(int slot, InterfaceItem item) {
         items.put(slot, item);
         return this;

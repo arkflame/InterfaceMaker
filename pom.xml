@@ -30,8 +30,8 @@
             <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>2lstudios</id>
-            <url>https://ci.2lstudios.dev/plugin/repository/everything/</url>
+            <id>iridiumdevelopment</id>
+            <url>https://nexus.iridiumdevelopment.net/repository/maven-releases/</url>
         </repository>
     </repositories>
 
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.iridium</groupId>
             <artifactId>IridiumColorAPI</artifactId>
-            <version>1.0.6</version>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
