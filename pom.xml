@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.iridium</groupId>
             <artifactId>IridiumColorAPI</artifactId>
-            <version>LATEST</version>
+            <version>1.0.6</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
